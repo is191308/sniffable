@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Table(name = "pubdate")
 @Entity
 public class Pubdate extends BaseEntity{	
@@ -18,21 +20,28 @@ public class Pubdate extends BaseEntity{
 	@Column(name = "content")
 	private String content;
 	
-	@ManyToOne(targetEntity = Dog.class)
+	@ManyToOne(targetEntity = Dog.class, optional = false)
 	private Dog dog;
 	
+	@JsonIgnore
 	@OneToMany(targetEntity = Comment.class, mappedBy = "pubdate")
 	private List<Comment> comments;
 	
 	@ManyToMany(targetEntity = Dog.class, mappedBy = "likes")
+	@JsonIgnore
 	private List<Dog> pubdate_likes;
 	
 	@ManyToMany(targetEntity = Dog.class, mappedBy = "shares")
+	@JsonIgnore
 	private List<Dog> pubdate_shares;
 	
+	public Pubdate() {
+		
+	}
 	
-	public Pubdate(String title) {
+	public Pubdate(String title, Dog dog) {
 		this.title = title;
+		this.dog = dog;
 		this.timestamp = new Date();
 	}
 

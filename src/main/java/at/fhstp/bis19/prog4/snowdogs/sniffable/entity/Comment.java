@@ -19,6 +19,10 @@ public class Comment extends BaseEntity{
 		this.pubdate = pubdate;
 		this.dog = dog;
 	}
+	
+	public Comment() {
+		
+	}
 
 	//TODO: removed unused setter
 	public String getComment() {

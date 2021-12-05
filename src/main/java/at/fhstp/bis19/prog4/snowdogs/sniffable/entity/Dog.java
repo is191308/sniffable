@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Table(name = "user")
 @Entity
 public class Dog extends BaseEntity {
@@ -11,15 +13,19 @@ public class Dog extends BaseEntity {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
+	@JsonIgnore
 	@OneToMany(targetEntity = Pubdate.class, mappedBy = "dog")
 	private List<Pubdate> pubdates;
 	
+	@JsonIgnore
 	@OneToMany(targetEntity = Dog.class)
 	private List<Dog> subcriptions;
 	
+	@JsonIgnore
 	@ManyToMany(targetEntity = Pubdate.class)
 	private List<Pubdate> likes;
 	
+	@JsonIgnore
 	@ManyToMany(targetEntity = Pubdate.class)
 	private List<Pubdate> shares;
 	
