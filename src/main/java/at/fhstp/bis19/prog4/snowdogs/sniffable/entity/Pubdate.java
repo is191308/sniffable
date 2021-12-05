@@ -29,5 +29,62 @@ public class Pubdate {
 	
 	@ManyToOne(targetEntity = Dog.class)
 	private Dog dog;
+
+	public int getId() {
+		return id;
+	}
+	
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public List<Dog> getPubdate_likes() {
+		return pubdate_likes;
+	}
+
+	public void setPubdate_likes(List<Dog> pubdate_likes) {
+		this.pubdate_likes = pubdate_likes;
+	}
+
+	public Dog getDog() {
+		return dog;
+	}
+
+	public void setDog(Dog dog) {
+		this.dog = dog;
+	}
+
+	@Override
+	public String toString() {
+		return "Pubdate [id=" + id + ", timestamp=" + timestamp + ", title=" + title + "]";
+	}
 	
 }

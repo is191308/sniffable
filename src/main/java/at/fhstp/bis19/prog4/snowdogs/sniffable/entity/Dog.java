@@ -22,4 +22,47 @@ public class Dog {
 	
 	@ManyToMany(targetEntity = Pubdate.class)
 	private List<Pubdate> likes;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<Pubdate> getPubdates() {
+		return pubdates;
+	}
+
+	public void setPubdates(List<Pubdate> pubdates) {
+		this.pubdates = pubdates;
+	}
+
+	public List<Dog> getSubcriptions() {
+		return subcriptions;
+	}
+
+	public void setSubcriptions(List<Dog> subcriptions) {
+		this.subcriptions = subcriptions;
+	}
+
+	public List<Pubdate> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(List<Pubdate> likes) {
+		this.likes = likes;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	@Override
+	public String toString() {
+		return "Dog [id=" + id + ", name=" + name + "]";
+	}
+	
+	
 }
