@@ -43,23 +43,6 @@ public class GenericContoller<T extends BaseEntity> {
 		return null;
 	}
 
-	@PostMapping
-	public T create(@RequestBody T entity, @RequestHeader("masterkey") String headerKey) {
-		String mk = env.getProperty(masterkeyConfigProperty);
-		if (mk != null && mk.equals(headerKey)) {
-			return repo.save(entity);
-		}
-		return null;
-	}
-
-	@PutMapping(value = "{id}")
-	public T update(@PathVariable(value = "id") int id, @RequestBody T entity, @RequestHeader(masterkeyHeaderAttribute) String headerKey) {
-		String mk = env.getProperty(masterkeyConfigProperty);
-		if (mk != null && mk.equals(headerKey)) {
-			return repo.save(entity);
-		}
-		return null;
-	}
 
 	@DeleteMapping(value = "{id}")
 	public void delete(@PathVariable(value = "id") int id, @RequestHeader(masterkeyHeaderAttribute) String headerKey) {
@@ -68,5 +51,23 @@ public class GenericContoller<T extends BaseEntity> {
 			repo.deleteById(id);
 		}
 	}
+	
+	/*@PutMapping(value = "{id}")
+	public T update(@PathVariable(value = "id") int id, @RequestBody T entity, @RequestHeader(masterkeyHeaderAttribute) String headerKey) {
+		String mk = env.getProperty(masterkeyConfigProperty);
+		if (mk != null && mk.equals(headerKey)) {
+			return repo.save(entity);
+		}
+		return null;
+	}
+	
+	@PostMapping
+	public T create(@RequestBody T entity, @RequestHeader("masterkey") String headerKey) {
+		String mk = env.getProperty(masterkeyConfigProperty);
+		if (mk != null && mk.equals(headerKey)) {
+			return repo.save(entity);
+		}
+		return null;
+	}*/
 
 }
