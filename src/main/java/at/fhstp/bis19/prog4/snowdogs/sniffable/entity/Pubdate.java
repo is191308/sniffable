@@ -7,19 +7,19 @@ import javax.persistence.*;
 
 @Table(name = "pubdate")
 @Entity
-public class Pubdate {
-	@Id
-	@GeneratedValue
-	private int id;
-	
-	@Column(name = "timestamp")
-	private Date timestamp;
-	
-	@Column(name = "title")
+public class Pubdate extends BaseEntity{	
+	@Column(name = "title" , nullable = false)
 	private String title;
 	
-	@Column(name = "description")
-	private String description;
+	@Column(name = "timestamp", nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date timestamp;
+	
+	@Column(name = "content")
+	private String content;
+	
+	@ManyToOne(targetEntity = Dog.class)
+	private Dog dog;
 	
 	@OneToMany(targetEntity = Comment.class, mappedBy = "pubdate")
 	private List<Comment> comments;
@@ -27,19 +27,19 @@ public class Pubdate {
 	@ManyToMany(targetEntity = Dog.class, mappedBy = "likes")
 	private List<Dog> pubdate_likes;
 	
-	@ManyToOne(targetEntity = Dog.class)
-	private Dog dog;
-
-	public int getId() {
-		return id;
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "shares")
+	private List<Dog> pubdate_shares;
+	
+	
+	public Pubdate(String title) {
+		this.title = title;
+		this.timestamp = new Date();
 	}
+
+	//TODO: removed unused setter
 	
 	public Date getTimestamp() {
 		return timestamp;
-	}
-
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
 	}
 
 	public String getTitle() {
@@ -50,12 +50,12 @@ public class Pubdate {
 		this.title = title;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getContent() {
+		return content;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public List<Comment> getComments() {
@@ -82,9 +82,17 @@ public class Pubdate {
 		this.dog = dog;
 	}
 
+	public List<Dog> getPubdate_shares() {
+		return pubdate_shares;
+	}
+
+	public void setPubdate_shares(List<Dog> pubdate_shares) {
+		this.pubdate_shares = pubdate_shares;
+	}
+
 	@Override
 	public String toString() {
-		return "Pubdate [id=" + id + ", timestamp=" + timestamp + ", title=" + title + "]";
+		return "Pubdate [id=" + super.getId() + ", timestamp=" + timestamp + ", title=" + title + "]";
 	}
 	
 }

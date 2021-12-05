@@ -6,12 +6,9 @@ import javax.persistence.*;
 
 @Table(name = "user")
 @Entity
-public class Dog {
-	@Id
-	@GeneratedValue
-	private int id;
-	
-	@Column(name = "name")
+public class Dog extends BaseEntity {
+
+	@Column(name = "name", nullable = false)
 	private String name;
 	
 	@OneToMany(targetEntity = Pubdate.class, mappedBy = "dog")
@@ -22,7 +19,20 @@ public class Dog {
 	
 	@ManyToMany(targetEntity = Pubdate.class)
 	private List<Pubdate> likes;
-
+	
+	@ManyToMany(targetEntity = Pubdate.class)
+	private List<Pubdate> shares;
+	
+	public Dog() {
+		this("anonymous dog");
+	}
+	
+	public Dog(String name) {
+		this.name = name;
+	}
+	
+	//TODO: removed unused setter
+		
 	public String getName() {
 		return name;
 	}
@@ -55,13 +65,19 @@ public class Dog {
 		this.likes = likes;
 	}
 
-	public int getId() {
-		return id;
+	public List<Pubdate> getShares() {
+		return shares;
 	}
+
+	public void setShares(List<Pubdate> shares) {
+		this.shares = shares;
+	}
+	
+	
 
 	@Override
 	public String toString() {
-		return "Dog [id=" + id + ", name=" + name + "]";
+		return "Dog [id=" + super.getId() + ", name=" + name + "]";
 	}
 	
 	
