@@ -14,19 +14,19 @@ public class Dog extends BaseEntity {
 	private String name;
 	
 	@JsonIgnore
-	@OneToMany(targetEntity = Pubdate.class, mappedBy = "dog")
+	@OneToMany(targetEntity = Pubdate.class, mappedBy = "dog", cascade = CascadeType.ALL)
 	private List<Pubdate> pubdates;
 	
 	@JsonIgnore
-	@OneToMany(targetEntity = Dog.class)
+	@OneToMany(targetEntity = Dog.class, cascade = CascadeType.ALL)
 	private List<Dog> subcriptions;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Pubdate.class)
+	@ManyToMany(targetEntity = Pubdate.class, cascade = CascadeType.ALL)
 	private List<Pubdate> likes;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Pubdate.class)
+	@ManyToMany(targetEntity = Pubdate.class, cascade = CascadeType.ALL)
 	private List<Pubdate> shares;
 	
 	public Dog() {

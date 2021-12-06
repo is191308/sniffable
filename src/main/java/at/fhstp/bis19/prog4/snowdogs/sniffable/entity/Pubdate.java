@@ -20,18 +20,18 @@ public class Pubdate extends BaseEntity{
 	@Column(name = "content")
 	private String content;
 	
-	@ManyToOne(targetEntity = Dog.class, optional = false)
+	@ManyToOne(targetEntity = Dog.class, optional = false, cascade = CascadeType.ALL)
 	private Dog dog;
 	
 	@JsonIgnore
-	@OneToMany(targetEntity = Comment.class, mappedBy = "pubdate")
+	@OneToMany(targetEntity = Comment.class, mappedBy = "pubdate", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Comment> comments;
 	
-	@ManyToMany(targetEntity = Dog.class, mappedBy = "likes")
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "likes", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Dog> pubdate_likes;
 	
-	@ManyToMany(targetEntity = Dog.class, mappedBy = "shares")
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "shares", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Dog> pubdate_shares;
 	
