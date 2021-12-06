@@ -40,7 +40,6 @@ public class GenericContoller<T extends BaseEntity> {
 		return null;
 	}
 
-
 	@DeleteMapping(value = "{id}")
 	public void delete(@PathVariable(value = "id") int id, @RequestHeader(masterkeyHeaderAttribute) String headerKey) {
 		String mk = env.getProperty(masterkeyConfigProperty);
