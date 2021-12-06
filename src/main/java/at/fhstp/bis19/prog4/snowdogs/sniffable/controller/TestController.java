@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.*;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.BaseCrudRepository;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.service.ClientDogService;
 
 /**
  * Generate Test data via GetRequest
@@ -21,6 +22,8 @@ public class TestController {
 	private BaseCrudRepository<Pubdate> pubdateRepo;
 	@Autowired
 	private BaseCrudRepository<Comment> commentRepo;
+	@Autowired
+	ClientDogService ds;
 
 	@GetMapping("/testdata")
 	public String createTestData() {
@@ -34,6 +37,8 @@ public class TestController {
 			pubdate.setContent("Useless sozial media content!");
 			Comment comment = new Comment("Your right!", pubdate, dog2);
 			commentRepo.save(comment);
+			//check findbyName
+			ds.registerDog("Testdog1");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "Failed to create test data!";
