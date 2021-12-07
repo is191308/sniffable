@@ -17,7 +17,7 @@ public class CommentController extends GenericContoller<Comment> {
 	@Autowired
 	private ClientCommentService cCommentService;
 	
-	//POST METHOD -> localhost:8080/restapi/pubdate/addPubdate/.........
+	//POST METHOD -> localhost:8080/restapi/comment/addComment/.........
 	@PostMapping("/addComment")
 	public Comment addComment(@RequestParam(required = true) String comment, String pubdateID){
 		
