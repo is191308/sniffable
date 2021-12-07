@@ -22,7 +22,7 @@ public class ClientCommentService {
 	private static final Logger log = LoggerFactory.getLogger(ClientCommentService.class);
 
 	
-	public Comment createPubdate() {
+	public Comment createComment() {
 		//toDo
 		
 		return (new Comment());
