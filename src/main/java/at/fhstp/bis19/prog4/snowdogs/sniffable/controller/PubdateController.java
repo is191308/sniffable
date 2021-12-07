@@ -19,7 +19,7 @@ public class PubdateController extends GenericContoller<Pubdate> {
 	@Autowired
 	private ClientDogService cDogService;
 	
-	@PostMapping("/addPubdate") //eventuell location ändern
+	@PostMapping("/addPubdate")
 	public Pubdate addPubdate(@RequestParam(required = true) String title, String content, String dogname){
 		
 		if ((title == null) || (dogname == null))  {
