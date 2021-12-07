@@ -17,6 +17,8 @@ public class ClientController {
 	@Autowired
 	private ClientDogService cDogService;
 	
+	
+	//GET METHOD -> localhost:8080/client/register/?name=johnDog
 	@GetMapping("/register")
 	public Dog registerDog(@RequestParam(required = true) String name) {
 		if (name.isBlank()) {

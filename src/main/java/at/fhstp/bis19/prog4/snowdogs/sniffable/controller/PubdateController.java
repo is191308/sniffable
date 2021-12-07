@@ -8,26 +8,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.service.ClientDogService;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.service.ClientPubdateService;
 
 @RestController("PubdateController")
 @RequestMapping("/restapi/pubdate")
 public class PubdateController extends GenericContoller<Pubdate> {
 	
-	@Autowired
-	private ClientDogService cDogService;
 	
+	@Autowired
+	private ClientPubdateService cPubdateService;
+	
+	//POST METHOD -> localhost:8080/restapi/pubdate/addPubdate?title=testtitle&dogID=1&content=got it
 	@PostMapping("/addPubdate")
-	public Pubdate addPubdate(@RequestParam(required = true) String title, String content, String dogname){
+	public Pubdate addPubdate(@RequestParam(required = true) String title, String content, String dogID){
 		
-		if ((title == null) || (dogname == null))  {
+		if ((title == null) || (dogID == null))  {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title or dogname is empty");
 		}
 		
 
-		Pubdate pubdate = cDogService.createPubdate(title, content, dogname);
+		Pubdate pubdate = cPubdateService.createPubdate(title, content, dogID);
 		if (pubdate == null) {
 			throw new ResponseStatusException(HttpStatus.CONFLICT, "no such dog registered");
 		}
@@ -37,3 +38,5 @@ public class PubdateController extends GenericContoller<Pubdate> {
 	
 	
 }
+
+// 
