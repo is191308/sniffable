@@ -7,6 +7,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.BaseEntity;
@@ -40,6 +43,7 @@ public class GenericContoller<T extends BaseEntity> {
 		return null;
 	}
 
+	
 	@DeleteMapping(value = "{id}")
 	public void delete(@PathVariable(value = "id") int id, @RequestHeader(masterkeyHeaderAttribute) String headerKey) {
 		String mk = env.getProperty(masterkeyConfigProperty);
@@ -47,8 +51,8 @@ public class GenericContoller<T extends BaseEntity> {
 			repo.deleteById(id);
 		}
 	}
-	
-	/*@PutMapping(value = "{id}")
+	/*
+	@PutMapping(value = "{id}")
 	public T update(@PathVariable(value = "id") int id, @RequestBody T entity, @RequestHeader(masterkeyHeaderAttribute) String headerKey) {
 		String mk = env.getProperty(masterkeyConfigProperty);
 		if (mk != null && mk.equals(headerKey)) {
@@ -56,6 +60,7 @@ public class GenericContoller<T extends BaseEntity> {
 		}
 		return null;
 	}
+	
 	
 	@PostMapping
 	public T create(@RequestBody T entity, @RequestHeader("masterkey") String headerKey) {
