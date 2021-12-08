@@ -80,7 +80,7 @@ public class Dog extends BaseEntity {
 	}
 	
 	
-
+	
 	@Override
 	public String toString() {
 		return "Dog [id=" + super.getId() + ", name=" + name + "]";

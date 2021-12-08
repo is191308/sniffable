@@ -77,16 +77,16 @@ public class ClientController {
 	
 	
 	@PostMapping("/likePubdate")
-	//SOLLT GEHEN  - TUTS ABER NICHT!!
+	//POST METHOD -> localhost:8080/client/likePubdate?pubdateID=2&dogID=1
 	public Pubdate likePubdate(@RequestParam(required = true) String pubdateID, String dogID) {
 		
 		if (dogID == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "dogID is empty");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "pubdateID or dogID is empty");
 		}
 		
-		Pubdate pubdate = cPubdateService.createPubdateLike(pubdateID, dogID);
+		Pubdate pubdate = cPubdateService.createDogLikeOnPubdate(pubdateID, dogID);
 		if (pubdate == null) {
-			throw new ResponseStatusException(HttpStatus.CONFLICT, "something went wrong");
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "invalid pubdateID or dogID");
 		}
 		
 		return pubdate;

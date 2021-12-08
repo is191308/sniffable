@@ -57,7 +57,7 @@ public class ClientPubdateService {
 
 	
 	//SOLLT GEHEN  - TUTS ABER NICHT!!
-	public Pubdate createPubdateLike(String pubdateID, String dogID) {
+	public Pubdate createDogLikeOnPubdate(String pubdateID, String dogID) {
 		int pubdateIntID = 0;
 		int dogIntID = 0;
 		
@@ -69,7 +69,7 @@ public class ClientPubdateService {
 		}
 		
 		if (pubdateRepo.findById(pubdateIntID).isEmpty()) {
-			log.info("Unable to find pubdateID,  \"{}\" does not exist!", dogIntID);
+			log.info("Unable to find pubdateID,  \"{}\" does not exist!", pubdateIntID);
 			return null;
 		}
 		
@@ -78,26 +78,22 @@ public class ClientPubdateService {
 			return null;
 	
 		} else {
+			Pubdate existingPubdate = pubdateRepo.findById(pubdateIntID).orElse(null);
+			Dog existingDog = dogRepo.findById(dogIntID).orElse(null);
+			List<Pubdate> dogLikePubdateList = existingDog.getLikes();
 			
-			Optional<Pubdate> optionalPubdate = pubdateRepo.findById(pubdateIntID);
-				if (optionalPubdate.isPresent()) {
-					Pubdate oldPubdate = optionalPubdate.get();
-					List<Dog> likeList =oldPubdate.getPubdate_likes();
-					likeList.add(dogRepo.findById(dogIntID).orElse(null));
-					oldPubdate.setPubdate_likes(likeList);
-					pubdateRepo.save(oldPubdate);
-					
-					return oldPubdate;
-//					log.info("Dog \"{}\" successfully liked Pubdate: \"{}\"", dogRepo.findById(dogIntID), pubdateRepo.findById(pubdateIntID));
-				}
+			if(!dogLikePubdateList.contains(existingPubdate)) {
+				dogLikePubdateList.add(existingPubdate);
+				existingDog.setLikes(dogLikePubdateList);
+				dogRepo.save(existingDog);
+				log.info("Dog \"{}\" successfully liked Pubdate: \"{}\"", existingDog, existingPubdate);
+				return existingPubdate;
+			}
 			
+			log.info("dogID, \"{}\" has already liked pubdateID \"{}\", not possible again!", existingDog, existingPubdate);
+			return existingPubdate;
+			}
 			
-			
-			return null;
 		}
-		
-		
-		
-	}
 
 }

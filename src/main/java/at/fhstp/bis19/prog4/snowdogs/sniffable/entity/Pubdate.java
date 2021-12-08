@@ -27,8 +27,8 @@ public class Pubdate extends BaseEntity{
 	@OneToMany(targetEntity = Comment.class, mappedBy = "pubdate", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Comment> comments;
 	
-	@ManyToMany(targetEntity = Dog.class, mappedBy = "likes", cascade = CascadeType.ALL)
 	//@JsonIgnore
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "likes", cascade = CascadeType.ALL)
 	private List<Dog> pubdate_likes;
 	
 	@ManyToMany(targetEntity = Dog.class, mappedBy = "shares", cascade = CascadeType.ALL)
@@ -79,8 +79,9 @@ public class Pubdate extends BaseEntity{
 		return pubdate_likes;
 	}
 
-	public void setPubdate_likes(List<Dog> pubdate_likes) {
-		this.pubdate_likes = pubdate_likes;
+	public void setPubdate_likes(Dog givenDog) {
+//		this.pubdate_likes = pubdate_likes;
+		this.pubdate_likes.add(givenDog);
 	}
 
 	public Dog getDog() {
