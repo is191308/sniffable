@@ -9,6 +9,4 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog;
 @RestController("DogController")
 @RequestMapping("/restapi/dog")
 public class DogController extends GenericContoller<Dog> {
-	
-
 }
