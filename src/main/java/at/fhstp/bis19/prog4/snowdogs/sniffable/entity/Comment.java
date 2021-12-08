@@ -1,6 +1,11 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable.entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Table(name = "comment")
 @Entity
@@ -8,6 +13,7 @@ public class Comment extends BaseEntity{
 	@Column(name = "comment")
 	private String comment;
 	
+	@JsonIgnore
 	@ManyToOne(targetEntity = Pubdate.class, optional = false)
 	private Pubdate pubdate;
 	

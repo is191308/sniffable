@@ -23,7 +23,7 @@ public class Pubdate extends BaseEntity{
 	@ManyToOne(targetEntity = Dog.class, optional = false, cascade = CascadeType.ALL)
 	private Dog dog;
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@OneToMany(targetEntity = Comment.class, mappedBy = "pubdate", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Comment> comments;
 	
