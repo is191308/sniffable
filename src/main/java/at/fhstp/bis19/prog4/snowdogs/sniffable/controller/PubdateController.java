@@ -3,6 +3,7 @@ package at.fhstp.bis19.prog4.snowdogs.sniffable.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,7 @@ public class PubdateController extends GenericContoller<Pubdate> {
 	public Pubdate addPubdate(@RequestParam(required = true) String title, String content, String dogID){
 		
 		if ((title == null) || (dogID == null))  {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title or dogname is empty");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title or dogID is empty");
 		}
 		
 
@@ -35,7 +36,21 @@ public class PubdateController extends GenericContoller<Pubdate> {
 		return pubdate; 
 	}
 		
-	
+	//SOLLT GEHEN  - TUTS ABER NICHT!!
+	@PostMapping("/likePubdate")
+	public Pubdate likePubdate(@RequestParam(required = true) String pubdateID, String dogID) {
+		
+		if (dogID == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "dogID is empty");
+		}
+		
+		Pubdate pubdate = cPubdateService.createPubdateLike(pubdateID, dogID);
+		if (pubdate == null) {
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "something went wrong");
+		}
+		
+		return pubdate;
+	}
 	
 }
 

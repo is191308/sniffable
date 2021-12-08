@@ -28,7 +28,7 @@ public class Pubdate extends BaseEntity{
 	private List<Comment> comments;
 	
 	@ManyToMany(targetEntity = Dog.class, mappedBy = "likes", cascade = CascadeType.ALL)
-	@JsonIgnore
+	//@JsonIgnore
 	private List<Dog> pubdate_likes;
 	
 	@ManyToMany(targetEntity = Dog.class, mappedBy = "shares", cascade = CascadeType.ALL)
