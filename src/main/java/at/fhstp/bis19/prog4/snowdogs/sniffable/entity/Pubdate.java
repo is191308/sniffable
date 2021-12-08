@@ -20,6 +20,9 @@ public class Pubdate extends BaseEntity{
 	@Column(name = "content")
 	private String content;
 	
+	@ManyToOne(targetEntity = Image.class, cascade = CascadeType.ALL)
+	private Image picture;
+	
 	@ManyToOne(targetEntity = Dog.class, optional = false, cascade = CascadeType.ALL)
 	private Dog dog;
 	
@@ -27,16 +30,16 @@ public class Pubdate extends BaseEntity{
 	@OneToMany(targetEntity = Comment.class, mappedBy = "pubdate", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Comment> comments;
 	
-	@ManyToMany(targetEntity = Dog.class, mappedBy = "likes", cascade = CascadeType.ALL)
 	@JsonIgnore
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "likes", cascade = CascadeType.ALL)
 	private List<Dog> pubdate_likes;
 	
-	@ManyToMany(targetEntity = Dog.class, mappedBy = "shares", cascade = CascadeType.ALL)
 	@JsonIgnore
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "shares", cascade = CascadeType.ALL)
 	private List<Dog> pubdate_shares;
 	
+	
 	public Pubdate() {
-		
 	}
 	
 	public Pubdate(String title, Dog dog) {
@@ -44,8 +47,6 @@ public class Pubdate extends BaseEntity{
 		this.dog = dog;
 		this.timestamp = new Date();
 	}
-
-	//TODO: removed unused setter
 	
 	public Date getTimestamp() {
 		return timestamp;
@@ -65,6 +66,14 @@ public class Pubdate extends BaseEntity{
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+	public Image getPicture() {
+		return picture;
+	}
+
+	public void setPicture(Image picture) {
+		this.picture = picture;
 	}
 
 	public List<Comment> getComments() {

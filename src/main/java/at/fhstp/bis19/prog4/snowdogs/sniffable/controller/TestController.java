@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.*;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog.Role;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.BaseCrudRepository;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.service.ClientDogService;
 
@@ -28,17 +29,30 @@ public class TestController {
 	@GetMapping("/testdata")
 	public String createTestData() {
 		try {
-			Dog dog = new Dog("Testdog1");
+			Dog dog = new Dog("UserDog1", "qwertz");
+			dog.setProfilePicture(new Image("TestProfilbild", "dfaldfa8jf3p983rpfawe8wfp9a".getBytes()));
 			dogRepo.save(dog);
-			Dog dog2 = new Dog("CommentDog1");
+			Dog dog2 = new Dog("UserDog2", "qwertz");
+			dog2.setProfilePicture(new Image("TestProfilbild2", "ijasp98f3j833jfp38fj3pf".getBytes()));
 			dogRepo.save(dog2);
+			
+			Dog dog3 = new Dog("CommentDog", "asdf1234");
+			dogRepo.save(dog3);
+			Dog adminDog = new Dog("AdminDog", "asdf1234");
+			adminDog.setRole(Role.ADMIN);
+			dogRepo.save(adminDog);
+			Dog modDog = new Dog("ModeratorDog", "mod1234");
+			modDog.setRole(Role.MODERATOR);
+			
+			dogRepo.save(adminDog);
 			Pubdate pubdate = new Pubdate("Erster Pubdate von Testdog1", dog);
+			pubdate.setPicture(new Image("DogPic", "dfaldfa8jf3p983rpfawe8wfp9a".getBytes()));
 			pubdateRepo.save(pubdate);
+			
 			pubdate.setContent("Useless sozial media content!");
 			Comment comment = new Comment("Your right!", pubdate, dog2);
 			commentRepo.save(comment);
-			//check findbyName
-			ds.registerDog("Testdog1");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "Failed to create test data!";
