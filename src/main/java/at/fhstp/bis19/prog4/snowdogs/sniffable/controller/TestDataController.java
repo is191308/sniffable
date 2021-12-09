@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.*;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog.Role;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.BaseCrudRepository;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.service.ClientDogService;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.service.DogService;
 
 /**
  * Generate Test data via GetRequest
@@ -16,7 +16,7 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.service.ClientDogService;
  *
  */
 @RestController
-public class TestController {
+public class TestDataController {
 	@Autowired
 	private BaseCrudRepository<Dog> dogRepo;
 	@Autowired
@@ -24,7 +24,7 @@ public class TestController {
 	@Autowired
 	private BaseCrudRepository<Comment> commentRepo;
 	@Autowired
-	ClientDogService ds;
+	DogService ds;
 
 	@GetMapping("/testdata")
 	public String createTestData() {

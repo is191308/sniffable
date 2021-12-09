@@ -3,9 +3,7 @@ package at.fhstp.bis19.prog4.snowdogs.sniffable.exception;
 import org.springframework.http.HttpStatus;
 
 @SuppressWarnings("serial")
-public class SniffableNotFoundException extends SniffableGeneralException {
-	public final HttpStatus httpErrorCode = HttpStatus.NOT_FOUND;
-
+public class SniffableNotFoundException extends SniffableException {
 	public SniffableNotFoundException() {
 	}
 
@@ -19,6 +17,11 @@ public class SniffableNotFoundException extends SniffableGeneralException {
 
 	public SniffableNotFoundException(String message, Throwable cause) {
 		super(message, cause);
+	}
+	
+	@Override
+	public HttpStatus getHTTPStatus() {
+		return HttpStatus.NOT_FOUND;
 	}
 	
 }

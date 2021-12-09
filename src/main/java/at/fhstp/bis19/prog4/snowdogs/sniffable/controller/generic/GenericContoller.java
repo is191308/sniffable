@@ -1,4 +1,4 @@
-package at.fhstp.bis19.prog4.snowdogs.sniffable.controller;
+package at.fhstp.bis19.prog4.snowdogs.sniffable.controller.generic;
 
 import java.util.List;
 
