@@ -36,20 +36,40 @@ public class TestDataController {
 			
 			Dog dog3 = new Dog("CommentDog", "asdf1234");
 			dogRepo.save(dog3);
+			
 			Dog adminDog = new Dog("AdminDog", "asdf1234");
 			adminDog.setRole(Role.ADMIN);
 			dogRepo.save(adminDog);
+			
 			Dog modDog = new Dog("ModeratorDog", "mod1234");
 			modDog.setRole(Role.MODERATOR);
+			dogRepo.save(modDog);
 			
-			dogRepo.save(adminDog);
 			Pubdate pubdate = new Pubdate("Erster Pubdate von Testdog1", dog);
+			pubdate.setContent("Useless sozial media content!");
 			pubdate.setPicture(new Image("DogPic", "dfaldfa8jf3p983rpfawe8wfp9a".getBytes()));
 			pubdateRepo.save(pubdate);
 			
-			pubdate.setContent("Useless sozial media content!");
-			Comment comment = new Comment("Your right!", pubdate, dog2);
+			Pubdate pubdate2 = new Pubdate("Zweiter Pubdate von Testdog1", dog);
+			pubdate2.setContent("More useless sozial media content!");
+			pubdate2.setPicture(new Image("DogPic2", "dfaldfa8jf3dffdfdp983rpfawe8wfp9a".getBytes()));
+			pubdateRepo.save(pubdate2);
+			
+			Pubdate pubdate3 = new Pubdate("Erster Pubdate von Testdog2", dog2);
+			pubdate3.setContent("Hi ist me Testdog 2!");
+			pubdate3.setPicture(new Image("DogPic3", "sdfdsfdsfdsfdsfddsf".getBytes()));
+			pubdateRepo.save(pubdate3);
+			
+			Pubdate pubdate4 = new Pubdate("Share example Pudate", modDog);
+			pubdate4.setContent("This is to test share feature!");
+			pubdate4.setPicture(new Image("DogPic4", "sdfdsfdsfdsfdsfddsf".getBytes()));
+			pubdateRepo.save(pubdate4);
+			
+			
+			Comment comment = new Comment("Your right!", pubdate, dog3);
+			Comment comment2 = new Comment("Your totally right!", pubdate3, modDog);
 			commentRepo.save(comment);
+			commentRepo.save(comment2);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
