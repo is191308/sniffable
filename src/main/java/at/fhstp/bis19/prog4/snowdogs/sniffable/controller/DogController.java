@@ -1,17 +1,14 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable.controller;
 
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +22,6 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog.Role;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.service.DogService;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.service.PudateService;
 
 @RestController
 @RequestMapping("/dog")
@@ -119,7 +115,7 @@ public class DogController {
 		}
 	}
 	
-	@PostMapping(value = {"{id}/{action}/{pid}"})
+	@PostMapping(value = "{id}/{action}/{pid}")
 	public void createLikeShareFollow(@PathVariable(value = "id", required = true) int id, @PathVariable(value = "pid", required = true) int pid, @PathVariable(value = "action", required = true) String action) {
 		try {
 			switch (action) {
@@ -136,6 +132,15 @@ public class DogController {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 			}
 		} catch (SniffableException ex) {
+			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
+		}
+	}
+	
+	@GetMapping(value = "{id}/timeline")
+	public Set<PubdateDTO> getTimeline(@PathVariable(value = "id", required = true) int id) throws SniffableException {
+		try {
+			return cDogService.getTimeline(id);
+		} catch (SniffableNotFoundException ex) {
 			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
 		}
 	}

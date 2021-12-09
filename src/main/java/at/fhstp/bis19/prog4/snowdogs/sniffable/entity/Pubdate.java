@@ -1,18 +1,16 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable.entity;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
 
 @Table(name = "pubdate")
 @Entity
-public class Pubdate extends BaseEntity{	
+public class Pubdate extends BaseEntity implements Comparable<Pubdate>{	
 	@Column(name = "title" , nullable = false)
 	private String title;
 	
@@ -114,6 +112,11 @@ public class Pubdate extends BaseEntity{
 	@Override
 	public String toString() {
 		return "Pubdate [id=" + super.getId() + ", timestamp=" + timestamp + ", title=" + title + "]";
+	}
+
+	@Override
+	public int compareTo(Pubdate o) {
+		return this.timestamp.compareTo(o.timestamp);
 	}
 	
 }

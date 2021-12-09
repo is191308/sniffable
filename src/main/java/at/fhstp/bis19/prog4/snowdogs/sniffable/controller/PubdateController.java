@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;

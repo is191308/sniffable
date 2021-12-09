@@ -4,7 +4,7 @@ import java.util.Date;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
 
-public class PubdateDTO {
+public class PubdateDTO implements Comparable<PubdateDTO> {
 	private int id;
 	private String title;
 	private Date timestamp;
@@ -64,4 +64,11 @@ public class PubdateDTO {
 	public String toString() {
 		return "PubdateDTO [id=" + id + ", title=" + title + ", timestamp=" + timestamp + "]";
 	}
+
+	@Override
+	public int compareTo(PubdateDTO o) {
+		return this.timestamp.compareTo(o.timestamp);
+	}
+	
+	
 }

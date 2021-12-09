@@ -1,10 +1,10 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable.service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -161,5 +161,22 @@ public class DogService {
 		}
 	}
 	
+	public Set<PubdateDTO> getTimeline(int id) throws SniffableException {
+		if (dogRepo.existsById(id)) {
+			Set<PubdateDTO> timeline = new TreeSet<>();
+			Dog dog = dogRepo.findById(id).get();
+			for (Dog d : dog.getFollow()) {
+				for (Pubdate  p : d.getPubdates()) {
+					timeline.add(new PubdateDTO(p));
+				}
+				for (Pubdate  p : d.getShares()) {
+					timeline.add(new PubdateDTO(p));
+				}
+			}
+			return timeline;
+		} else {
+			throw new SniffableNotFoundException("dog with id \"" + id + "\" + not exists");
+		}
+	}
 	
 }
