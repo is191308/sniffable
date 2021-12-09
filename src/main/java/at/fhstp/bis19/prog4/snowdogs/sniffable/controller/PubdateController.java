@@ -48,7 +48,7 @@ public class PubdateController {
 	}	
 	
 	@GetMapping(value = "{id}")
-	public PubdateDTO getDogByID(@PathVariable(value = "id", required = true) int id) {
+	public PubdateDTO getPubdateById(@PathVariable(value = "id", required = true) int id) {
 		try {
 			return cPubdateService.getById(id);
 		} catch (SniffableNotFoundException ex) {
