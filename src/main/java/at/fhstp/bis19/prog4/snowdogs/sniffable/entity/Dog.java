@@ -1,6 +1,6 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable.entity;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -22,20 +22,24 @@ public class Dog extends BaseEntity {
 	private Dog.Role role;
 	
 	@JsonIgnore
-	@OneToMany(targetEntity = Pubdate.class, mappedBy = "dog", cascade = CascadeType.ALL)
-	private List<Pubdate> pubdates;
+	@OneToMany(targetEntity = Pubdate.class, mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Pubdate> pubdates;
 	
 	@JsonIgnore
-	@OneToMany(targetEntity = Dog.class, cascade = CascadeType.ALL)
-	private List<Dog> subcriptions;
+	@ManyToMany(targetEntity = Dog.class, cascade = CascadeType.ALL)
+	private Set<Dog> follow;
+	
+	@JsonIgnore
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "follow", cascade = CascadeType.ALL)
+	private Set<Dog> followers;
 	
 	@JsonIgnore
 	@ManyToMany(targetEntity = Pubdate.class, cascade = CascadeType.ALL)
-	private List<Pubdate> likes;
+	private Set<Pubdate> likes;
 	
 	@JsonIgnore
 	@ManyToMany(targetEntity = Pubdate.class, cascade = CascadeType.ALL)
-	private List<Pubdate> shares;
+	private Set<Pubdate> shares;
 	
 	
 	public Dog() {
@@ -78,42 +82,62 @@ public class Dog extends BaseEntity {
 		this.role = role;
 	}
 
-	public List<Pubdate> getPubdates() {
+	public Set<Pubdate> getPubdates() {
 		return pubdates;
 	}
 
-	public void setPubdates(List<Pubdate> pubdates) {
+	public void setPubdates(Set<Pubdate> pubdates) {
 		this.pubdates = pubdates;
 	}
 
-	public List<Dog> getSubcriptions() {
-		return subcriptions;
+	public Set<Dog> getFollow() {
+		return follow;
 	}
 
-	public void setSubcriptions(List<Dog> subcriptions) {
-		this.subcriptions = subcriptions;
+	public void setFollow(Set<Dog> follow) {
+		this.follow = follow;
+	}
+	
+	public void addFollow(Dog follow) {
+		this.follow.add(follow);
 	}
 
-	public List<Pubdate> getLikes() {
+	public Set<Dog> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(Set<Dog> followers) {
+		this.followers = followers;
+	}
+
+	public Set<Pubdate> getLikes() {
 		return likes;
 	}
 
-	public void setLikes(List<Pubdate> likes) {
+	public void setLikes(Set<Pubdate> likes) {
 		this.likes = likes;
 	}
+	
+	public void addLike(Pubdate like) {
+		this.likes.add(like);
+	}
 
-	public List<Pubdate> getShares() {
+	public Set<Pubdate> getShares() {
 		return shares;
 	}
 
-	public void setShares(List<Pubdate> shares) {
+	public void setShares(Set<Pubdate> shares) {
 		this.shares = shares;
+	}
+	
+	public void addShare(Pubdate share) {
+		this.shares.add(share);
 	}
 	
 	@Override
 	public String toString() {
 		return "Dog [id=" + super.getId() + ", name=" + name + "]";
 	}
-	
+
 	
 }

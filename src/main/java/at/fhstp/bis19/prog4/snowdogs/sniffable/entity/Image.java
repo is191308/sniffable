@@ -13,7 +13,7 @@ public class Image extends BaseEntity {
 	@JsonIgnore
 	@Column(name = "imageData")
 	private byte[] imageData;
-
+	
 	public Image() {
 	}
 	
@@ -42,7 +42,7 @@ public class Image extends BaseEntity {
 	public void setImageData(byte[] imageData) {
 		this.imageData = imageData;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Image [id=\"" + super.getId() + ", Name=" + Name + "]";

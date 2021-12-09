@@ -2,6 +2,8 @@ package at.fhstp.bis19.prog4.snowdogs.sniffable.dto;
 
 import java.util.Date;
 
+import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
+
 public class PubdateDTO {
 	private int id;
 	private String title;
@@ -9,6 +11,18 @@ public class PubdateDTO {
 	private String content;
 	private ImageDTO picture;
 	private DogDTO dog;
+	
+	public PubdateDTO() {
+	}
+	
+	public PubdateDTO(Pubdate pubdate) {
+		this.id = pubdate.getId();
+		this.title = pubdate.getTitle();
+		this.timestamp = pubdate.getTimestamp();
+		this.picture = new ImageDTO(pubdate.getPicture());
+		this.content = pubdate.getContent();
+		this.dog = new DogDTO(pubdate.getDog());
+	}
 	
 	public int getId() {
 		return id;
