@@ -19,10 +19,7 @@ public class Dog extends BaseEntity {
 	private String password;
 	
 	@Column(name = "role", nullable = false)
-	private Role role;
-	
-	@ManyToOne(targetEntity = Image.class, cascade = CascadeType.ALL)
-	private Image profilePicture;
+	private Dog.Role role;
 	
 	@JsonIgnore
 	@OneToMany(targetEntity = Pubdate.class, mappedBy = "dog", cascade = CascadeType.ALL)
@@ -44,7 +41,7 @@ public class Dog extends BaseEntity {
 	public Dog() {
 		this("Anonymous dog", "password");
 	}
-	
+		
 	public Dog(String name, String password) {
 		this.name = name;
 		this.password = password;
@@ -81,14 +78,6 @@ public class Dog extends BaseEntity {
 		this.role = role;
 	}
 
-	public Image getProfilePicture() {
-		return profilePicture;
-	}
-
-	public void setProfilePicture(Image profilePicture) {
-		this.profilePicture = profilePicture;
-	}
-
 	public List<Pubdate> getPubdates() {
 		return pubdates;
 	}
@@ -121,8 +110,6 @@ public class Dog extends BaseEntity {
 		this.shares = shares;
 	}
 	
-	
-
 	@Override
 	public String toString() {
 		return "Dog [id=" + super.getId() + ", name=" + name + "]";

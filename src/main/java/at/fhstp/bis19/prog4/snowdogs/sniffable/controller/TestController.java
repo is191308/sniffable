@@ -30,10 +30,8 @@ public class TestController {
 	public String createTestData() {
 		try {
 			Dog dog = new Dog("UserDog1", "qwertz");
-			dog.setProfilePicture(new Image("TestProfilbild", "dfaldfa8jf3p983rpfawe8wfp9a".getBytes()));
 			dogRepo.save(dog);
 			Dog dog2 = new Dog("UserDog2", "qwertz");
-			dog2.setProfilePicture(new Image("TestProfilbild2", "ijasp98f3j833jfp38fj3pf".getBytes()));
 			dogRepo.save(dog2);
 			
 			Dog dog3 = new Dog("CommentDog", "asdf1234");
