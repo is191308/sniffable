@@ -36,23 +36,23 @@ public class Dog extends BaseEntity {
 	private Dog.Role role = Role.USER;
 	
 	@JsonIgnore
-	@OneToMany(targetEntity = Pubdate.class, mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(targetEntity = Pubdate.class, mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<Pubdate> pubdates;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Dog.class, cascade = CascadeType.ALL)
+	@ManyToMany(targetEntity = Dog.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Dog> follow;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Dog.class, mappedBy = "follow", cascade = CascadeType.ALL)
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "follow", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Dog> followers;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Pubdate.class, cascade = CascadeType.ALL)
+	@ManyToMany(targetEntity = Pubdate.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Pubdate> likes;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Pubdate.class, cascade = CascadeType.ALL)
+	@ManyToMany(targetEntity = Pubdate.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Pubdate> shares;
 	
 	
