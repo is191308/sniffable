@@ -2,8 +2,21 @@ package at.fhstp.bis19.prog4.snowdogs.sniffable.entity;
 
 import javax.persistence.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Table(name = "comment")
 @Entity
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Comment extends BaseEntity {
 	@Column(name = "comment")
 	private String comment;
@@ -13,45 +26,4 @@ public class Comment extends BaseEntity {
 
 	@ManyToOne(targetEntity = Dog.class, optional = false)
 	private Dog dog;
-
-	
-	public Comment() {
-	}
-
-	public Comment(String comment, Pubdate pubdate, Dog dog) {
-		this.comment = comment;
-		this.pubdate = pubdate;
-		this.dog = dog;
-	}
-
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
-	public Pubdate getPubdate() {
-		return pubdate;
-	}
-
-	public void setPubdate(Pubdate pubdate) {
-		this.pubdate = pubdate;
-	}
-
-	public Dog getDog() {
-		return dog;
-	}
-
-	public void setDog(Dog dog) {
-		this.dog = dog;
-	}
-
-	@Override
-	public String toString() {
-		return "Comment [id=" + super.getId() + ", comment=" + comment + "]";
-	}
-
 }

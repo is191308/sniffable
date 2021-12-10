@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.CommentDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.RegisterDogDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Comment;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableIllegalValueException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.CommentRepo;
 
@@ -39,6 +42,7 @@ public class CommentService {
 			commentRepo.deleteById(id);
 		} else {
 			throw new SniffableNotFoundException("comment with id \"" + id + "\" + not exists");
-		}
+		}		
 	}
+	
 }

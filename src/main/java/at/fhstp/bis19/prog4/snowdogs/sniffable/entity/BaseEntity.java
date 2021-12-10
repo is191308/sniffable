@@ -8,6 +8,8 @@ import javax.persistence.MappedSuperclass;
 
 /**
  * Base class for Entities
+ * defines unique id
+ * implements hashCode and equals
  */
 @MappedSuperclass
 public class BaseEntity {

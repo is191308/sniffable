@@ -29,48 +29,26 @@ public class TestDataController {
 	@GetMapping("/testdata")
 	public String createTestData() {
 		try {
-			Dog dog = new Dog("UserDog1", "qwertz");
-			dogRepo.save(dog);
-			Dog dog2 = new Dog("UserDog2", "qwertz");
+			Dog dog1 = Dog.builder().name("UserDog1").password("asdfqwer123").role(Role.USER).build();
+			dogRepo.save(dog1);
+			Dog dog2 = Dog.builder().name("UserDog2").password("asdfqwer321").role(Role.USER).build();
 			dogRepo.save(dog2);
-			
-			Dog dog3 = new Dog("CommentDog", "asdf1234");
+			Dog dog3 = Dog.builder().name("UserDog3").password("asdfqwer343").role(Role.USER).build();
 			dogRepo.save(dog3);
 			
-			Dog adminDog = new Dog("AdminDog", "asdf1234");
-			adminDog.setRole(Role.ADMIN);
+			Dog adminDog = Dog.builder().name("AdminDog1").password("asdfqwer786").role(Role.ADMIN).build();
 			dogRepo.save(adminDog);
-			
-			Dog modDog = new Dog("ModeratorDog", "mod1234");
-			modDog.setRole(Role.MODERATOR);
+			Dog modDog = Dog.builder().name("ModeratorDog1").password("asdfqwer543").role(Role.MODERATOR).build();
 			dogRepo.save(modDog);
 			
-			Pubdate pubdate = new Pubdate("Erster Pubdate von Testdog1", dog);
-			pubdate.setContent("Useless sozial media content!");
-			pubdate.setPicture(new Image("DogPic", "dfaldfa8jf3p983rpfawe8wfp9a".getBytes()));
-			pubdateRepo.save(pubdate);
+			Pubdate pub1 = Pubdate.builder().title("Erster Pubdate von Testdog1").content("Useless sozial media content!").dog(dog1).picture(Image.builder().name("Pic1").imageData("asdfadfasfasf".getBytes()).build()).build();
+			pubdateRepo.save(pub1);
+			pubdateRepo.save(Pubdate.builder().title("Zweiter Pubdate von Testdog1").content("More useless sozial media content!").dog(dog1).picture(Image.builder().name("Pic2").imageData("asdfdsfdasfasf".getBytes()).build()).build());
+			pubdateRepo.save(Pubdate.builder().title("Erster Pubdate von Testdog2").content("Useless sozial media content!").dog(dog2).picture(Image.builder().name("Pic3").imageData("g24535345g32g5325".getBytes()).build()).build());
+			pubdateRepo.save(Pubdate.builder().title("Zweiter Pubdate von Testdog2").content("Useless sozial media content!").dog(dog2).picture(Image.builder().name("Pic4").imageData("45d3d2535d25".getBytes()).build()).build());
 			
-			Pubdate pubdate2 = new Pubdate("Zweiter Pubdate von Testdog1", dog);
-			pubdate2.setContent("More useless sozial media content!");
-			pubdate2.setPicture(new Image("DogPic2", "dfaldfa8jf3dffdfdp983rpfawe8wfp9a".getBytes()));
-			pubdateRepo.save(pubdate2);
-			
-			Pubdate pubdate3 = new Pubdate("Erster Pubdate von Testdog2", dog2);
-			pubdate3.setContent("Hi ist me Testdog 2!");
-			pubdate3.setPicture(new Image("DogPic3", "sdfdsfdsfdsfdsfddsf".getBytes()));
-			pubdateRepo.save(pubdate3);
-			
-			Pubdate pubdate4 = new Pubdate("Share example Pudate", modDog);
-			pubdate4.setContent("This is to test share feature!");
-			pubdate4.setPicture(new Image("DogPic4", "sdfdsfdsfdsfdsfddsf".getBytes()));
-			pubdateRepo.save(pubdate4);
-			
-			
-			Comment comment = new Comment("Your right!", pubdate, dog3);
-			Comment comment2 = new Comment("Your totally right!", pubdate3, modDog);
-			commentRepo.save(comment);
-			commentRepo.save(comment2);
-			
+			commentRepo.save(Comment.builder().comment("Your right!").dog(adminDog).pubdate(pub1).build());
+			commentRepo.save(Comment.builder().comment("Your right!").dog(modDog).pubdate(pub1).build());			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "Failed to create test data!";

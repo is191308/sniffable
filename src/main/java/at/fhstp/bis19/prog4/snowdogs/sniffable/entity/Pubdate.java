@@ -7,16 +7,30 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 
 @Table(name = "pubdate")
 @Entity
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Pubdate extends BaseEntity implements Comparable<Pubdate>{	
 	@Column(name = "title" , nullable = false)
 	private String title;
 	
 	@Column(name = "timestamp", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date timestamp;
+	@Builder.Default
+	private Date timestamp = new Date();
 	
 	@Column(name = "content")
 	private String content;
@@ -29,90 +43,15 @@ public class Pubdate extends BaseEntity implements Comparable<Pubdate>{
 	
 	@JsonIgnore
 	@OneToMany(targetEntity = Comment.class, mappedBy = "pubdate", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Comment> comments;
+	private Set<Comment> pubdateComments;
 	
 	@JsonIgnore
 	@ManyToMany(targetEntity = Dog.class, mappedBy = "likes", cascade = CascadeType.ALL)
-	private Set<Dog> pubdate_likes;
+	private Set<Dog> pubdateLikes;
 	
 	@JsonIgnore
 	@ManyToMany(targetEntity = Dog.class, mappedBy = "shares", cascade = CascadeType.ALL)
-	private Set<Dog> pubdate_shares;
-	
-	
-	public Pubdate() {
-	}
-	
-	public Pubdate(String title, Dog dog) {
-		this.title = title;
-		this.dog = dog;
-		this.timestamp = new Date();
-	}
-	
-	public Date getTimestamp() {
-		return timestamp;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-	
-	public Image getPicture() {
-		return picture;
-	}
-
-	public void setPicture(Image picture) {
-		this.picture = picture;
-	}
-
-	public Set<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(Set<Comment> comments) {
-		this.comments = comments;
-	}
-
-	public Set<Dog> getPubdate_likes() {
-		return pubdate_likes;
-	}
-
-	public void setPubdate_likes(Set<Dog> pubdate_likes) {
-		this.pubdate_likes = pubdate_likes;
-	}
-
-	public Dog getDog() {
-		return dog;
-	}
-
-	public void setDog(Dog dog) {
-		this.dog = dog;
-	}
-
-	public Set<Dog> getPubdate_shares() {
-		return pubdate_shares;
-	}
-
-	public void setPubdate_shares(Set<Dog> pubdate_shares) {
-		this.pubdate_shares = pubdate_shares;
-	}
-
-	@Override
-	public String toString() {
-		return "Pubdate [id=" + super.getId() + ", timestamp=" + timestamp + ", title=" + title + "]";
-	}
+	private Set<Dog> pubdateShares;
 
 	@Override
 	public int compareTo(Pubdate o) {

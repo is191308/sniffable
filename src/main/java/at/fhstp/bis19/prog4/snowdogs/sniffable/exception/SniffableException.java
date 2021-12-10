@@ -1,6 +1,7 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @SuppressWarnings("serial")
 public class SniffableException extends Exception {
@@ -19,6 +20,7 @@ public class SniffableException extends Exception {
 		super(message, cause);
 	}
 	
+	//alternative @ResponeStatus
 	public HttpStatus getHTTPStatus() {
 		return HttpStatus.INTERNAL_SERVER_ERROR;
 	}

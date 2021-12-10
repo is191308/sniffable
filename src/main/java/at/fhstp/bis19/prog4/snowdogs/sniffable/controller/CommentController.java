@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,7 +23,7 @@ public class CommentController {
 	CommentService cCommentService;
 	
 	@GetMapping()
-	public Set<CommentDTO> getDogs() {
+	public Set<CommentDTO> getComments() {
 		return cCommentService.getAll();
 	}
 	
@@ -42,4 +44,5 @@ public class CommentController {
 			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
 		}
 	}
+	
 }

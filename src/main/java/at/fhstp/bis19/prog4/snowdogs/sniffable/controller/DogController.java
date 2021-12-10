@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.RegisterDogDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog.Role;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;
@@ -36,67 +37,39 @@ public class DogController {
 	private Environment env;
 
 	/**
-	 * Register a new dog (Role User)
-	 * 
-	 * @param name     - dog username
-	 * @param password - login password
-	 * @return DogDTO
+	 * CREATE Dog
+	 * @param dog (name, password, role)
+	 * @param headerKey
+	 * @return dog
 	 */
-	@GetMapping("/register")
-	public DogDTO registerUserDog(@RequestParam(required = true) String name,
-			@RequestParam(required = true) String password) {
-		return regsiterDog(name, password, Role.USER);
-	}
-
-	/**
-	 * Register a new dog (Role Admin)
-	 * 
-	 * @param name      - dog username
-	 * @param password  - login password
-	 * @param headerKey - masterkey to create admin dogs
-	 * @return DogDTO
-	 */
-	@GetMapping("/registerAdmin")
-	public DogDTO registerAdminDog(@RequestParam(required = true) String name,
-			@RequestParam(required = true) String password, @RequestHeader(masterkeyHeaderAttribute) String headerKey) {
+	@PostMapping("/")
+	public DogDTO registerUserDogPost(@RequestBody(required = true) RegisterDogDto dog, @RequestHeader(masterkeyHeaderAttribute) String headerKey) {
 		String mk = env.getProperty(masterkeyConfigProperty);
-		if (mk == null || !(mk.equals(headerKey))) {
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "missing or invalid masterkey");
-		}
-		return regsiterDog(name, password, Role.ADMIN);
-	}
-	
-	private DogDTO regsiterDog(String name, String password, Role role) {
-		if (name.isBlank() || name.isBlank()) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "name or password empty");
-		}
 		try {
-			return cDogService.registerDog(name, password, role);
+			// Force Role User if masterkey is invalid
+			if (mk == null || !(mk.equals(headerKey))) {
+				dog.setRole(Role.USER);
+			}
+			return cDogService.createDog(dog);
 		} catch (SniffableException ex) {
 			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
 		}
 	}
 
 	/**
-	 * Change the name of a dog
-	 * 
-	 * @param dog DogDTO
-	 * @return modified DogDTO
+	 * SELECT ALL
+	 * @return dog
 	 */
-	@GetMapping("/changeName")
-	public DogDTO changeDogName(@RequestBody(required = true) final DogDTO dog) {
-		try {
-			return cDogService.changeDogName(dog);
-		} catch (SniffableException ex) {
-			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
-		}
-	}
-	
 	@GetMapping()
 	public Set<DogDTO> getDogs() {
 		return cDogService.getAll();
 	}
 	
+	/**
+	 * SELECT by ID
+	 * @param id ID
+	 * @return dog
+	 */
 	@GetMapping(value = "{id}")
 	public DogDTO getDogByID(@PathVariable(value = "id", required = true) int id) {
 		try {
@@ -106,6 +79,10 @@ public class DogController {
 		}
 	}
 	
+	/**
+	 * DELETE by ID
+	 * @param id ID
+	 */
 	@DeleteMapping(value = "{id}")
 	public void deleteDogById(@PathVariable(value = "id", required = true) int id) {
 		try {
@@ -115,6 +92,12 @@ public class DogController {
 		}
 	}
 	
+	/**
+	 * LIKE SHARE FOLLOW
+	 * @param id dog id
+	 * @param pid pubdate or dog id
+	 * @param action (like|follow|share)
+	 */
 	@PostMapping(value = "{id}/{action}/{pid}")
 	public void createLikeShareFollow(@PathVariable(value = "id", required = true) int id, @PathVariable(value = "pid", required = true) int pid, @PathVariable(value = "action", required = true) String action) {
 		try {
@@ -136,11 +119,17 @@ public class DogController {
 		}
 	}
 	
+	/**
+	 * TIMELINE
+	 * @param id dogid
+	 * @return timeline
+	 * @throws SniffableException
+	 */
 	@GetMapping(value = "{id}/timeline")
-	public Set<PubdateDTO> getTimeline(@PathVariable(value = "id", required = true) int id) throws SniffableException {
+	public Set<PubdateDTO> getTimeline(@PathVariable(value = "id", required = true) int id) {
 		try {
 			return cDogService.getTimeline(id);
-		} catch (SniffableNotFoundException ex) {
+		} catch (SniffableException ex) {
 			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
 		}
 	}
@@ -165,5 +154,46 @@ public class DogController {
 			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
 		}
 	}*/
+	
+
+	/*
+	@GetMapping("/changeName")
+	public DogDTO changeDogName(@RequestBody(required = true) final DogDTO dog) {
+		try {
+			return cDogService.changeDogName(dog);
+		} catch (SniffableException ex) {
+			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
+		}
+	}*/
+	
+	/*
+	@GetMapping("/register")
+	public DogDTO registerUserDog(@RequestParam(required = true) String name,
+			@RequestParam(required = true) String password) {
+		return regsiterDog(name, password, Role.USER);
+	}*/
+
+	/*@GetMapping("/registerAdmin")
+	public DogDTO registerAdminDog(@RequestParam(required = true) String name,
+			@RequestParam(required = true) String password, @RequestHeader(masterkeyHeaderAttribute) String headerKey) {
+		String mk = env.getProperty(masterkeyConfigProperty);
+		if (mk == null || !(mk.equals(headerKey))) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "missing or invalid masterkey");
+		}
+		return regsiterDog(name, password, Role.ADMIN);
+	}
+	
+	private DogDTO regsiterDog(String name, String password, Role role) {
+		if (name.isBlank() || name.isBlank()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "name or password empty");
+		}
+		try {
+			return cDogService.registerDog(name, password, role);
+		} catch (SniffableException ex) {
+			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
+		}
+	}*/
+	
+	
 	
 }

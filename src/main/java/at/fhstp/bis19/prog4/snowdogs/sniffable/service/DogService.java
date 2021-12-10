@@ -1,9 +1,7 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable.service;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.slf4j.Logger;
@@ -13,13 +11,13 @@ import org.springframework.stereotype.Service;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.RegisterDogDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableAlreadyExistsException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableIllegalValueException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog.Role;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.DogRepo;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.PubdateRepo;
 
@@ -32,56 +30,6 @@ public class DogService {
 	PubdateRepo pubdateRepo;
 	
 	private static final Logger log = LoggerFactory.getLogger(DogService.class);
-	
-	public DogDTO registerDog(String name, String password, Role role) throws SniffableException {
-		if (name == null || name.isEmpty()) {
-			log.warn("Unable to register new dog \"{}\": name null or empty", name);
-			throw new SniffableIllegalValueException("name null or empty");
-		}
-		if (dogRepo.findByNameIgnoreCase(name).isEmpty()) {
-			Dog d = new Dog(name, password);
-			d.setRole(role);
-			Dog newDog = dogRepo.save(d);
-			if (newDog != null) {
-				log.info("New dog \"{}\" registerd sucessfully!", name);
-				return new DogDTO(newDog);
-			} else {
-				log.error("Unable to register new dog \"{}\": unable to save dog", name);
-				throw new SniffableException("unable to save dog");
-			}
-		} else {
-			log.warn("Unable to register new dog \"{}\": already exists!", name);
-			throw new SniffableAlreadyExistsException("name alreday exists");
-		}
-	}
-	
-	public DogDTO changeDogName(DogDTO dog) throws SniffableException {
-		if (dog == null || dog.getName() == null || dog.getName().isEmpty()) {
-			log.warn("Unable to change name: name null or empty!");
-			throw new SniffableIllegalValueException("name null or empty");
-		}
-		if (dogRepo.findByNameIgnoreCase(dog.getName()).isEmpty()) {
-			Optional<Dog> curDog = dogRepo.findById(dog.getId());
-			if (curDog.isPresent()) {
-				Dog d = curDog.get();
-				d.setName(dog.getName());
-				Dog newDog = dogRepo.save(d);
-				if (newDog != null) {
-					log.info("Name \"{}\" changed sucessfully!", dog.getName());
-					return new DogDTO(newDog);
-				} else {
-					log.info("Unable to change name to \"{}\": unknown error!", dog.getName());
-					throw new SniffableException("unable to save dog");
-				}
-			} else {
-				log.info("Unable to change name to \"{}\": dog with id \"{}\" not found!", dog.getName(), dog.getId());
-				throw new SniffableNotFoundException("dog not found");
-			}	
-		} else {
-			log.info("Unable to change name to \"{}\": name already exists!", dog.getName());
-			throw new SniffableAlreadyExistsException("name already exists");
-		}
-	}
 	
 	public Set<DogDTO> getAll() {
 		Set<DogDTO> dogs = new HashSet<>();
@@ -98,6 +46,32 @@ public class DogService {
 			throw new SniffableNotFoundException("dog with id \"" + id + "\" + not exists");
 		}
 	}
+	
+	public DogDTO createDog(RegisterDogDto dog) throws SniffableException {
+		if (dog.getName() == null || dog.getName().isEmpty()) {
+			log.warn("Unable to register new dog \"{}\": name null or empty", dog.getName());
+			throw new SniffableIllegalValueException("name null or empty");
+		}
+		if (dogRepo.findByNameIgnoreCase(dog.getName()).isEmpty()) {
+			Dog d = Dog.builder().name(dog.getName()).password(dog.getPassword()).role(dog.getRole()).build();
+			Dog newDog = dogRepo.save(d);
+			if (newDog != null) {
+				log.info("New dog \"{}\" registerd sucessfully!", dog.getName());
+				return new DogDTO(newDog);
+			} else {
+				log.error("Unable to register new dog \"{}\": unable to save dog", dog.getName());
+				throw new SniffableException("unable to save dog");
+			}
+		} else {
+			log.warn("Unable to register new dog \"{}\": already exists!", dog.getName());
+			throw new SniffableAlreadyExistsException("name alreday exists");
+		}
+	}
+	
+	//TODO
+	/*
+	public DogDTO updateDog() {
+	}*/
 	
 	public void delete(int id) throws SniffableNotFoundException {
 		if (dogRepo.existsById(id)) {
@@ -178,5 +152,29 @@ public class DogService {
 			throw new SniffableNotFoundException("dog with id \"" + id + "\" + not exists");
 		}
 	}
+	
+	
+	/*
+	public DogDTO registerDog(String name, String password, Role role) throws SniffableException {
+		if (name == null || name.isEmpty()) {
+			log.warn("Unable to register new dog \"{}\": name null or empty", name);
+			throw new SniffableIllegalValueException("name null or empty");
+		}
+		if (dogRepo.findByNameIgnoreCase(name).isEmpty()) {
+			Dog d = Dog.builder().name(name).password(password).role(role).build();
+			d.setRole(role);
+			Dog newDog = dogRepo.save(d);
+			if (newDog != null) {
+				log.info("New dog \"{}\" registerd sucessfully!", name);
+				return new DogDTO(newDog);
+			} else {
+				log.error("Unable to register new dog \"{}\": unable to save dog", name);
+				throw new SniffableException("unable to save dog");
+			}
+		} else {
+			log.warn("Unable to register new dog \"{}\": already exists!", name);
+			throw new SniffableAlreadyExistsException("name alreday exists");
+		}
+	}*/
 	
 }

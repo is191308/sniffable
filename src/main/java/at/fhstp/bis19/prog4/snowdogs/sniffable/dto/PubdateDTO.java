@@ -60,6 +60,7 @@ public class PubdateDTO implements Comparable<PubdateDTO> {
 	public void setPicture(ImageDTO picture) {
 		this.picture = picture;
 	}
+	
 	@Override
 	public String toString() {
 		return "PubdateDTO [id=" + id + ", title=" + title + ", timestamp=" + timestamp + "]";
