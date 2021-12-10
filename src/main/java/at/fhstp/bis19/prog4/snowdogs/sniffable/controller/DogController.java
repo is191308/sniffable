@@ -41,8 +41,8 @@ public class DogController {
 	 * @param headerKey
 	 * @return dog
 	 */
-	@PostMapping("/")
-	public DogDTO registerUserDogPost(@RequestBody(required = true) NewDogDTO dog, @RequestHeader(masterkeyHeaderAttribute) String headerKey) {
+	@PostMapping()
+	public DogDTO registerUserDogPost(@RequestBody(required = true) NewDogDTO dog, @RequestHeader(value = masterkeyHeaderAttribute, required = false) String headerKey) {
 		String mk = env.getProperty(masterkeyConfigProperty);
 		try {
 			// Force Role User if masterkey is not present or invalid
@@ -77,7 +77,7 @@ public class DogController {
 			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
 		}
 	}
-	
+
 	/**
 	 * DELETE by ID
 	 * @param id ID
