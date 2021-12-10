@@ -15,20 +15,23 @@ public class PubdateDTO implements Comparable<PubdateDTO> {
 	private String content;
 	private ImageDTO picture;
 	private DogDTO dog;
-	
+
 	public PubdateDTO(Pubdate pubdate) {
-		this.id = pubdate.getId();
-		this.title = pubdate.getTitle();
-		this.timestamp = pubdate.getTimestamp();
-		this.picture = new ImageDTO(pubdate.getPicture());
-		this.content = pubdate.getContent();
-		this.dog = new DogDTO(pubdate.getDog());
+		if (pubdate != null) {
+			this.id = pubdate.getId();
+			this.title = pubdate.getTitle();
+			this.timestamp = pubdate.getTimestamp();
+			if (pubdate.getPicture() != null) {
+				this.picture = new ImageDTO(pubdate.getPicture());
+			}
+			this.content = pubdate.getContent();
+			this.dog = new DogDTO(pubdate.getDog());
+		}
 	}
-	
+
 	@Override
 	public int compareTo(PubdateDTO o) {
 		return this.timestamp.compareTo(o.timestamp);
 	}
-	
-	
+
 }
