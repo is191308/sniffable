@@ -10,10 +10,12 @@ public class ImageDTO {
 	private int id;
 	private String name;
 	private byte[] imageData;
-	
-	public ImageDTO(Image image) {	
-		this.id = image.getId();
-		this.name = image.getName();
-		this.imageData = image.getImageData();
+
+	public ImageDTO(Image image) {
+		if (image != null) {
+			this.id = image.getId();
+			this.name = image.getName();
+			this.imageData = image.getImageData();
+		}
 	}
 }
