@@ -37,7 +37,9 @@ public class PudateService {
 		Optional<Dog> dog = dogRepo.findById(pubdate.getDog().getId());
 		if (dog.isPresent()) {
 			Pubdate pub = Pubdate.builder().title(pubdate.getTitle()).dog(dog.get()).content(pubdate.getContent()).dog(dog.get()).build();
-			pub.setPicture(new Image(pubdate.getPicture().getName(), pubdate.getPicture().getImageData()));
+			if (pubdate.getPicture() != null) {
+				pub.setPicture(new Image(pubdate.getPicture().getName(), pubdate.getPicture().getImageData()));
+			}
 			pub = pubdateRepo.save(pub);
 			if (pub != null) {
 				log.info("New pubdate \"{}\" created sucessfully!", pubdate.getTitle());

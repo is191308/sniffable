@@ -4,8 +4,10 @@ import java.util.Date;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class PubdateDTO implements Comparable<PubdateDTO> {
 	private int id;
 	private String title;
