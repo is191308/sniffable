@@ -25,7 +25,30 @@ public class PubdateController {
 	private PudateService cPubdateService;
 	
 	/**
-	 * Create a new Pubdate
+	 * SELECT ALL
+	 * @return pubdates
+	 */
+	@GetMapping
+	public List<PubdateDTO> getAllPubdates() {
+		return cPubdateService.getAll();
+	}
+	
+	/**
+	 * SELECT by ID
+	 * @param id ID
+	 * @return pubdate
+	 */
+	@GetMapping(value = "{id}")
+	public PubdateDTO getPubdateById(@PathVariable(value = "id", required = true) int id) {
+		try {
+			return cPubdateService.getById(id);
+		} catch (SniffableNotFoundException ex) {
+			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
+		}
+	}
+	
+	/**
+	 * CREATE
 	 * @param pubdate Pubdate
 	 * @return Pubdate
 	 */
@@ -39,23 +62,9 @@ public class PubdateController {
 	}
 	
 	/**
-	 * Return all pubdates
-	 * @return pubdates
+	 * DELETE by ID
+	 * @param id pubdate
 	 */
-	@GetMapping
-	public List<PubdateDTO> getAllPubdates() {
-		return cPubdateService.getAll();
-	}	
-	
-	@GetMapping(value = "{id}")
-	public PubdateDTO getPubdateById(@PathVariable(value = "id", required = true) int id) {
-		try {
-			return cPubdateService.getById(id);
-		} catch (SniffableNotFoundException ex) {
-			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
-		}
-	}
-	
 	@DeleteMapping(value = "{id}")
 	public void deleteDogById(@PathVariable(value = "id", required = true) int id) {
 		try {
