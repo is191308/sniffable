@@ -18,7 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.RegisterDogDto;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewDogDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog.Role;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;
@@ -43,10 +43,10 @@ public class DogController {
 	 * @return dog
 	 */
 	@PostMapping("/")
-	public DogDTO registerUserDogPost(@RequestBody(required = true) RegisterDogDto dog, @RequestHeader(masterkeyHeaderAttribute) String headerKey) {
+	public DogDTO registerUserDogPost(@RequestBody(required = true) NewDogDTO dog, @RequestHeader(masterkeyHeaderAttribute) String headerKey) {
 		String mk = env.getProperty(masterkeyConfigProperty);
 		try {
-			// Force Role User if masterkey is invalid
+			// Force Role User if masterkey is not present or invalid
 			if (mk == null || !(mk.equals(headerKey))) {
 				dog.setRole(Role.USER);
 			}

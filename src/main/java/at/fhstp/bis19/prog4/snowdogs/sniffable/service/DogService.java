@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.RegisterDogDto;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewDogDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableAlreadyExistsException;
@@ -47,7 +47,7 @@ public class DogService {
 		}
 	}
 	
-	public DogDTO createDog(RegisterDogDto dog) throws SniffableException {
+	public DogDTO createDog(NewDogDTO dog) throws SniffableException {
 		if (dog.getName() == null || dog.getName().isEmpty()) {
 			log.warn("Unable to register new dog \"{}\": name null or empty", dog.getName());
 			throw new SniffableIllegalValueException("name null or empty");
