@@ -22,11 +22,20 @@ public class CommentController {
 	@Autowired
 	CommentService cCommentService;
 	
+	/**
+	 * SELECT ALL
+	 * @return comments
+	 */
 	@GetMapping()
 	public Set<CommentDTO> getComments() {
 		return cCommentService.getAll();
 	}
 	
+	/**
+	 * SELECT by ID
+	 * @param id ID
+	 * @return comments
+	 */
 	@GetMapping(value = "{id}")
 	public CommentDTO getCommentByID(@PathVariable(value = "id", required = true) int id) {
 		try {
@@ -36,6 +45,10 @@ public class CommentController {
 		}
 	}
 	
+	/**
+	 * DELETE by ID
+	 * @param id ID
+	 */
 	@DeleteMapping(value = "{id}")
 	public void deleteCommentById(@PathVariable(value = "id", required = true) int id) {
 		try {
