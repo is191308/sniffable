@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class NewDogDTO {
+public class NewDogDTO implements BaseDTO {
 	@NotBlank
 	private String name;
 	@NotBlank

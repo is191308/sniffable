@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ImageDTO {
+public class ImageDTO implements BaseDTO {
 	private int id;
 	private String name;
 	private byte[] imageData;

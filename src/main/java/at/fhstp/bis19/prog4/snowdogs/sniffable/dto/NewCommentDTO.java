@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class NewCommentDTO {
+public class NewCommentDTO implements BaseDTO {
 	@NotBlank
 	private String comment;
 	private NewPubdateDTO pubdate;

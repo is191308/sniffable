@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class PubdateDTO implements Comparable<PubdateDTO> {
+public class PubdateDTO implements Comparable<PubdateDTO>, BaseDTO {
 	private int id;
 	private String title;
 	private Date timestamp;

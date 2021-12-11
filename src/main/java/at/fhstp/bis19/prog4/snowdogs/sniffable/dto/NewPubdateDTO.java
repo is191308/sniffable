@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class NewPubdateDTO {
+public class NewPubdateDTO implements BaseDTO {
 	@NotBlank
 	private String title;
 	@NotBlank
