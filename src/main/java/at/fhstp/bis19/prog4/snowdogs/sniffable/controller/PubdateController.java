@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewPubdateDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.service.PudateService;
@@ -29,7 +29,7 @@ public class PubdateController {
 	 * @return pubdates
 	 */
 	@GetMapping
-	public List<PubdateDTO> getAllPubdates() {
+	public List<NewPubdateDTO> getAllPubdates() {
 		return cPubdateService.getAll();
 	}
 	
@@ -39,7 +39,7 @@ public class PubdateController {
 	 * @return pubdate
 	 */
 	@GetMapping(value = "{id}")
-	public PubdateDTO getPubdateById(@PathVariable(value = "id", required = true) int id) {
+	public NewPubdateDTO getPubdateById(@PathVariable(value = "id", required = true) int id) {
 		try {
 			return cPubdateService.getById(id);
 		} catch (SniffableNotFoundException ex) {
@@ -53,7 +53,7 @@ public class PubdateController {
 	 * @return Pubdate
 	 */
 	@PostMapping()
-	public PubdateDTO createPubdate(@RequestBody(required = true) final PubdateDTO pubdate) {
+	public NewPubdateDTO createPubdate(@RequestBody(required = true) final NewPubdateDTO pubdate) {
 		try {
 			return cPubdateService.createPubdate(pubdate);
 		} catch (SniffableException ex) {

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDTO;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewPubdateDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewDogDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
@@ -143,16 +143,16 @@ public class DogService {
 		}
 	}
 	
-	public Set<PubdateDTO> getTimeline(int id) throws SniffableException {
+	public Set<NewPubdateDTO> getTimeline(int id) throws SniffableException {
 		if (dogRepo.existsById(id)) {
-			Set<PubdateDTO> timeline = new TreeSet<>();
+			Set<NewPubdateDTO> timeline = new TreeSet<>();
 			Dog dog = dogRepo.findById(id).get();
 			for (Dog d : dog.getFollow()) {
 				for (Pubdate  p : d.getPubdates()) {
-					timeline.add(new PubdateDTO(p));
+					timeline.add(new NewPubdateDTO(p));
 				}
 				for (Pubdate  p : d.getShares()) {
-					timeline.add(new PubdateDTO(p));
+					timeline.add(new NewPubdateDTO(p));
 				}
 			}
 			return timeline;

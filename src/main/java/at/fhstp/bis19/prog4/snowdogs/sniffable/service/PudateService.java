@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewPubdateDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Image;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
@@ -29,7 +29,7 @@ public class PudateService {
 	
 	private static final Logger log = LoggerFactory.getLogger(DogService.class);
 	
-	public PubdateDTO createPubdate(PubdateDTO pubdate) throws SniffableException {
+	public NewPubdateDTO createPubdate(NewPubdateDTO pubdate) throws SniffableException {
 		if (pubdate == null || pubdate.getTitle().isEmpty() || pubdate.getDog() == null) {
 			log.warn("Unable to create pubdate: pubdate null or empty");
 			throw new SniffableIllegalValueException("pubdate null or empty");
@@ -43,7 +43,7 @@ public class PudateService {
 			pub = pubdateRepo.save(pub);
 			if (pub != null) {
 				log.info("New pubdate \"{}\" created sucessfully!", pubdate.getTitle());
-				return new PubdateDTO(pub);
+				return new NewPubdateDTO(pub);
 			} else {
 				log.error("Unable to create pubdate \"{}\": unable to create pubdate", pubdate.getTitle());
 				throw new SniffableException("unable to create pubdate");
@@ -54,17 +54,17 @@ public class PudateService {
 		}
 	}
 	
-	public List<PubdateDTO> getAll() {
-		List<PubdateDTO> pubdates = new ArrayList<>();
+	public List<NewPubdateDTO> getAll() {
+		List<NewPubdateDTO> pubdates = new ArrayList<>();
 		for (Pubdate p : pubdateRepo.findAll()) {
-			pubdates.add(new PubdateDTO(p));
+			pubdates.add(new NewPubdateDTO(p));
 		}
 		return pubdates;
 	}
 	
-	public PubdateDTO getById(int id) throws SniffableNotFoundException {
+	public NewPubdateDTO getById(int id) throws SniffableNotFoundException {
 		if (pubdateRepo.existsById(id)) {
-			return new PubdateDTO(pubdateRepo.findById(id).get());
+			return new NewPubdateDTO(pubdateRepo.findById(id).get());
 		} else {
 			throw new SniffableNotFoundException("pubdate with id \"" + id + "\" + not exists");
 		}

@@ -7,13 +7,13 @@ import lombok.Data;
 public class CommentDTO {
 	private int id;
 	private String comment;
-	private PubdateDTO pubdate;
+	private NewPubdateDTO pubdate;
 	private DogDTO dog;
 	
 	public CommentDTO(Comment c) {
 		this.id = c.getId();
 		this.comment = c.getComment();
-		this.pubdate = new PubdateDTO(c.getPubdate());
+		this.pubdate = new NewPubdateDTO(c.getPubdate());
 		this.dog = new DogDTO(c.getDog());
 	}
 }
