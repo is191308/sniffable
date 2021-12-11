@@ -25,7 +25,7 @@ public class Dog extends BaseEntity {
 	// Roles
 	public static enum Role {ADMIN, MODERATOR, USER}
 	
-	@Column(name = "name", nullable = false)
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 	
 	@Column(name = "password", nullable = false)
