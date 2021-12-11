@@ -13,42 +13,23 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.CommentDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewCommentDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewPubdateDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.service.PudateService;
 
 @RestController
 @RequestMapping("/pubdate")
-public class PubdateController {
+public class PubdateController extends BaseController<Pubdate, PubdateDTO>{
 
 	@Autowired
 	private PudateService cPubdateService;
 	
-	/**
-	 * SELECT ALL
-	 * @return pubdates
-	 */
-	@GetMapping
-	public Set<PubdateDTO> getAllPubdates() {
-		return cPubdateService.getAll();
-	}
-	
-	/**
-	 * SELECT by ID
-	 * @param id ID
-	 * @return pubdate
-	 */
-	@GetMapping(value = "{id}")
-	public PubdateDTO getPubdateById(@PathVariable(value = "id", required = true) int id) {
-		try {
-			return cPubdateService.getById(id);
-		} catch (SniffableNotFoundException ex) {
-			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
-		}
-	}
 	
 	/**
 	 * CREATE
@@ -64,18 +45,6 @@ public class PubdateController {
 		}
 	}
 	
-	/**
-	 * DELETE by ID
-	 * @param id pubdate
-	 */
-	@DeleteMapping(value = "{id}")
-	public void deleteDogById(@PathVariable(value = "id", required = true) int id) {
-		try {
-			cPubdateService.delete(id);
-		} catch (SniffableNotFoundException ex) {
-			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
-		}
-	}
 	
 	/**
 	 * ADD Comment
@@ -83,7 +52,7 @@ public class PubdateController {
 	 * @return comment
 	 */
 	@PostMapping(value = "{id}/comment")
-	public CommentDTO createPubdate(@PathVariable(value = "id", required = true) int id, @RequestBody(required = true) final NewCommentDTO comment) {
+	public CommentDTO commentPubdate(@PathVariable(value = "id", required = true) int id, @RequestBody(required = true) final NewCommentDTO comment) {
 		try {
 			return cPubdateService.addComment(id, comment);
 		} catch (SniffableException ex) {
