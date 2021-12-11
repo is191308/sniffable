@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDTO;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewDogDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDto;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDto;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewDogDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog.Role;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
@@ -24,7 +24,7 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.service.DogService;
 
 @RestController
 @RequestMapping("/dog")
-public class DogController extends BaseController<Dog, DogDTO> {
+public class DogController extends BaseController<Dog, DogDto> {
 	private final String masterkeyHeaderAttribute = "masterkey";
 	private final String masterkeyConfigProperty = "sniffers.masterKey";
 
@@ -41,7 +41,7 @@ public class DogController extends BaseController<Dog, DogDTO> {
 	 * @return dog
 	 */
 	@PostMapping()
-	public DogDTO createDog(@RequestBody(required = true) NewDogDTO dog, @RequestHeader(value = masterkeyHeaderAttribute, required = false) String headerKey) {
+	public DogDto createDog(@RequestBody(required = true) NewDogDto dog, @RequestHeader(value = masterkeyHeaderAttribute, required = false) String headerKey) {
 		String mk = env.getProperty(masterkeyConfigProperty);
 		try {
 			// Force Role User if masterkey is not present or invalid
@@ -87,7 +87,7 @@ public class DogController extends BaseController<Dog, DogDTO> {
 	 * @return timeline
 	 */
 	@GetMapping(value = "{id}/timeline")
-	public Set<PubdateDTO> getTimeline(@PathVariable(value = "id", required = true) int id) {
+	public Set<PubdateDto> getTimeline(@PathVariable(value = "id", required = true) int id) {
 		try {
 			return cDogService.getTimeline(id);
 		} catch (SniffableException ex) {
@@ -101,7 +101,7 @@ public class DogController extends BaseController<Dog, DogDTO> {
 	 * @return Pubdates
 	 */
 	@GetMapping(value = "{id}/pubdates")
-	public Set<PubdateDTO> getPubdates(@PathVariable(value = "id", required = true) int id) {
+	public Set<PubdateDto> getPubdates(@PathVariable(value = "id", required = true) int id) {
 		try {
 			return cDogService.getPubdates(id);
 		} catch (SniffableException ex) {

@@ -8,12 +8,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.BaseDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.BaseDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.BaseEntity;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.BaseCrudRepository;
 
-public class BaseService<T extends BaseEntity, D extends BaseDTO> {
+public class BaseService<T extends BaseEntity, D extends BaseDto> {
 	@Autowired
 	BaseCrudRepository<T> repo;
 	

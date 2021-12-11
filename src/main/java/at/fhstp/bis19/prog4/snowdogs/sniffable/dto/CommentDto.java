@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ImageDTO implements BaseDTO {
+public class CommentDto implements BaseDto {
 	private int id;
-	private String name;
-	private byte[] imageData;
+	private String comment;
+	private DogDto dog;
 }

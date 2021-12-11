@@ -7,11 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.CommentDTO;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDTO;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewCommentDTO;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewPubdateDTO;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.CommentDto;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDto;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewCommentDto;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewPubdateDto;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Comment;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
@@ -23,7 +23,7 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.DogRepo;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.PubdateRepo;
 
 @Service
-public class PudateService extends BaseService<Pubdate, PubdateDTO> {
+public class PudateService extends BaseService<Pubdate, PubdateDto> {
 	@Autowired
 	PubdateRepo pubdateRepo;
 	
@@ -36,16 +36,16 @@ public class PudateService extends BaseService<Pubdate, PubdateDTO> {
 	private static final Logger log = LoggerFactory.getLogger(DogService.class);
 	
 	public PudateService() {
-		super(PubdateDTO.class);
+		super(PubdateDto.class);
 	}
 	
-	public DogDTO getByName(String name) throws SniffableNotFoundException {
+	public DogDto getByName(String name) throws SniffableNotFoundException {
 		return mapper.
 				map(dogRepo.findByNameIgnoreCase(name).
-						orElseThrow(() -> new SniffableNotFoundException("dog with name \"" + name + "\" + not exists")), DogDTO.class);
+						orElseThrow(() -> new SniffableNotFoundException("dog with name \"" + name + "\" + not exists")), DogDto.class);
 	}
 	
-	public PubdateDTO createPubdate(NewPubdateDTO pubdate) throws SniffableException {
+	public PubdateDto createPubdate(NewPubdateDto pubdate) throws SniffableException {
 		if (pubdate == null || pubdate.getTitle().isEmpty() || pubdate.getDog() == null) {
 			log.warn("Unable to create pubdate: pubdate null or empty");
 			throw new SniffableIllegalValueException("pubdate null or empty");
@@ -57,7 +57,7 @@ public class PudateService extends BaseService<Pubdate, PubdateDTO> {
 			pub = pubdateRepo.save(pub);
 			if (pub != null) {
 				log.info("New pubdate \"{}\" created sucessfully!", pubdate.getTitle());
-				return mapper.map(pub, PubdateDTO.class);
+				return mapper.map(pub, PubdateDto.class);
 			} else {
 				log.error("Unable to create pubdate \"{}\": unable to create pubdate", pubdate.getTitle());
 				throw new SniffableException("unable to create pubdate");
@@ -68,7 +68,7 @@ public class PudateService extends BaseService<Pubdate, PubdateDTO> {
 		}
 	}
 	
-	public CommentDTO addComment(int pubdateId, NewCommentDTO comment) throws SniffableException {
+	public CommentDto addComment(int pubdateId, NewCommentDto comment) throws SniffableException {
 		Optional<Dog> dog = dogRepo.findById(comment.getDog().getId());
 		Optional<Pubdate> pub = pubdateRepo.findById(pubdateId);
 		if (pub.isPresent()) {
@@ -78,7 +78,7 @@ public class PudateService extends BaseService<Pubdate, PubdateDTO> {
 				c.setPubdate(pub.get());
 				pub.get().addComment(c);
 				commentRepo.save(c);
-				return mapper.map(commentRepo.save(c), CommentDTO.class);
+				return mapper.map(commentRepo.save(c), CommentDto.class);
 			} else {
 				throw new SniffableNotFoundException("dog does not exists");
 			}

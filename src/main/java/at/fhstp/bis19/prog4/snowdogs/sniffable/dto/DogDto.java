@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class DogDTO implements BaseDTO {
+public class DogDto implements BaseDto {
 	private int id;
 	private String name;
 	private Dog.Role role;

@@ -7,17 +7,17 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class PubdateDTO implements Comparable<PubdateDTO>, BaseDTO {
+public class PubdateDto implements Comparable<PubdateDto>, BaseDto {
 	private int id;
 	private String title;
 	private Date timestamp;
 	private String content;
-	private ImageDTO picture;
-	private DogDTO dog;
-	private Set<CommentDTO> comments;
+	private ImageDto picture;
+	private DogDto dog;
+	private Set<CommentDto> comments;
 
 	@Override
-	public int compareTo(PubdateDTO o) {
+	public int compareTo(PubdateDto o) {
 		return o.timestamp.compareTo(this.timestamp);
 	}
 
