@@ -1,8 +1,10 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,11 +59,9 @@ public class PudateService {
 		}
 	}
 	
-	public List<PubdateDTO> getAll() {
-		List<PubdateDTO> pubdates = new ArrayList<>();
-		for (Pubdate p : pubdateRepo.findAll()) {
-			pubdates.add(new PubdateDTO(p));
-		}
+	public Set<PubdateDTO> getAll() {
+		Set<PubdateDTO> pubdates = new HashSet<>();
+		pubdateRepo.findAll().forEach(p -> pubdates.add(new PubdateDTO(p)));
 		return pubdates;
 	}
 	
