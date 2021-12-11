@@ -12,7 +12,7 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.BaseEntity;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.BaseCrudRepository;
 
-public class BaseService<T extends BaseEntity, D extends Object> {
+public class BaseService<T extends BaseEntity, D> {
 	@Autowired
 	BaseCrudRepository<T> repo;
 	
