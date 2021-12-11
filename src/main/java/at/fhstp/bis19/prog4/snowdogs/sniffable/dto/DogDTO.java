@@ -11,9 +11,9 @@ public class DogDTO {
 	private String name;
 	private Dog.Role role;
 	
-	public DogDTO(Dog dog) {
+	/*public DogDTO(Dog dog) {
 		this.id = dog.getId();
 		this.name = dog.getName();
 		this.role = dog.getRole();
-	}
+	}*/
 }
