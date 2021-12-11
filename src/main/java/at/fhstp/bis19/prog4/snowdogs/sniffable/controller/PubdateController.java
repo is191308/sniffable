@@ -1,6 +1,6 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable.controller;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +31,7 @@ public class PubdateController {
 	 * @return pubdates
 	 */
 	@GetMapping
-	public List<PubdateDTO> getAllPubdates() {
+	public Set<PubdateDTO> getAllPubdates() {
 		return cPubdateService.getAll();
 	}
 	
