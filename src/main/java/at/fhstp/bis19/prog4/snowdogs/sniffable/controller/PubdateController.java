@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewCommentDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewPubdateDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.service.PudateService;
@@ -29,7 +31,7 @@ public class PubdateController {
 	 * @return pubdates
 	 */
 	@GetMapping
-	public List<NewPubdateDTO> getAllPubdates() {
+	public List<PubdateDTO> getAllPubdates() {
 		return cPubdateService.getAll();
 	}
 	
@@ -39,7 +41,7 @@ public class PubdateController {
 	 * @return pubdate
 	 */
 	@GetMapping(value = "{id}")
-	public NewPubdateDTO getPubdateById(@PathVariable(value = "id", required = true) int id) {
+	public PubdateDTO getPubdateById(@PathVariable(value = "id", required = true) int id) {
 		try {
 			return cPubdateService.getById(id);
 		} catch (SniffableNotFoundException ex) {
@@ -53,7 +55,7 @@ public class PubdateController {
 	 * @return Pubdate
 	 */
 	@PostMapping()
-	public NewPubdateDTO createPubdate(@RequestBody(required = true) final NewPubdateDTO pubdate) {
+	public PubdateDTO createPubdate(@RequestBody(required = true) final NewPubdateDTO pubdate) {
 		try {
 			return cPubdateService.createPubdate(pubdate);
 		} catch (SniffableException ex) {
@@ -73,5 +75,20 @@ public class PubdateController {
 			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
 		}
 	}
+	
+	/**
+	 * ADD Comment
+	 * @param comment comment
+	 * @return comment
+	 */
+	@PostMapping(value = "{id}/comment")
+	public PubdateDTO createPubdate(@PathVariable(value = "id", required = true) int id, @RequestBody(required = true) final NewCommentDTO comment) {
+		try {
+			return cPubdateService.addComment(id, comment);
+		} catch (SniffableException ex) {
+			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
+		}
+	}
+	
 	
 }

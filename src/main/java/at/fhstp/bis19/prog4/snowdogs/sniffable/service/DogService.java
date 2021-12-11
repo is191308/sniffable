@@ -3,6 +3,7 @@ package at.fhstp.bis19.prog4.snowdogs.sniffable.service;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDTO;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewPubdateDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewDogDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
@@ -143,17 +144,13 @@ public class DogService {
 		}
 	}
 	
-	public Set<NewPubdateDTO> getTimeline(int id) throws SniffableException {
+	public Set<PubdateDTO> getTimeline(int id) throws SniffableException {
 		if (dogRepo.existsById(id)) {
-			Set<NewPubdateDTO> timeline = new TreeSet<>();
+			Set<PubdateDTO> timeline = new TreeSet<>();
 			Dog dog = dogRepo.findById(id).get();
 			for (Dog d : dog.getFollow()) {
-				for (Pubdate  p : d.getPubdates()) {
-					timeline.add(new NewPubdateDTO(p));
-				}
-				for (Pubdate  p : d.getShares()) {
-					timeline.add(new NewPubdateDTO(p));
-				}
+				timeline.addAll(d.getPubdates().stream().map(p -> new PubdateDTO(p)).collect(Collectors.toSet()));
+				timeline.addAll(d.getShares().stream().map(p -> new PubdateDTO(p)).collect(Collectors.toSet()));
 			}
 			return timeline;
 		} else {

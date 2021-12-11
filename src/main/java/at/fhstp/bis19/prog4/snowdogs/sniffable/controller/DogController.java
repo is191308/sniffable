@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewPubdateDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewDogDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog.Role;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
@@ -122,10 +123,9 @@ public class DogController {
 	 * TIMELINE
 	 * @param id dogid
 	 * @return timeline
-	 * @throws SniffableException
 	 */
 	@GetMapping(value = "{id}/timeline")
-	public Set<NewPubdateDTO> getTimeline(@PathVariable(value = "id", required = true) int id) {
+	public Set<PubdateDTO> getTimeline(@PathVariable(value = "id", required = true) int id) {
 		try {
 			return cDogService.getTimeline(id);
 		} catch (SniffableException ex) {

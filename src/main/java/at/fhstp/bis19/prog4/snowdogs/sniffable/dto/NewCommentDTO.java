@@ -6,13 +6,12 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CommentDTO {
-	private int id;
+public class NewCommentDTO {
 	private String comment;
+	private NewPubdateDTO pubdate;
 	private DogDTO dog;
 	
-	public CommentDTO(Comment c) {
-		this.id = c.getId();
+	public NewCommentDTO(Comment c) {
 		this.comment = c.getComment();
 		this.dog = new DogDTO(c.getDog());
 	}
