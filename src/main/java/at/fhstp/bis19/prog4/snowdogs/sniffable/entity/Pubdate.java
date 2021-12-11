@@ -38,19 +38,19 @@ public class Pubdate extends BaseEntity implements Comparable<Pubdate>{
 	@OneToOne(targetEntity = Image.class, cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Image picture;
 	
-	@ManyToOne(targetEntity = Dog.class, optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(targetEntity = Dog.class, optional = false, fetch = FetchType.EAGER)
 	private Dog dog;
 	
 	@JsonIgnore
-	@OneToMany(targetEntity = Comment.class, mappedBy = "pubdate", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(targetEntity = Comment.class, mappedBy = "pubdate", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<Comment> pubdateComments;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Dog.class, mappedBy = "likes", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "likes", fetch = FetchType.EAGER)
 	private Set<Dog> pubdateLikes;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Dog.class, mappedBy = "shares", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "shares", fetch = FetchType.EAGER)
 	private Set<Dog> pubdateShares;
 	
 	public void addComment(Comment comment) {
@@ -59,7 +59,7 @@ public class Pubdate extends BaseEntity implements Comparable<Pubdate>{
 
 	@Override
 	public int compareTo(Pubdate o) {
-		return this.timestamp.compareTo(o.timestamp);
+		return o.timestamp.compareTo(this.timestamp);
 	}
 	
 }
