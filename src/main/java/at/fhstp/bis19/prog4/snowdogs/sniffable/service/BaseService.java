@@ -30,7 +30,7 @@ public class BaseService<T extends BaseEntity, D extends Object> {
 	}
 	
 	public D getById(int id) throws SniffableNotFoundException {
-		return (D) mapper.
+		return mapper.
 				map(repo.findById(id).
 						orElseThrow(() -> new SniffableNotFoundException("entity with id \"" + id + "\" + not exists")), typeParameterClass);
 	}
