@@ -30,7 +30,7 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.DogRepo;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.PubdateRepo;
 
 @Service
-public class DogService extends BaseService<Comment, DogDTO> {
+public class DogService extends BaseService<Dog, DogDTO> {
 	@Autowired
 	DogRepo dogRepo;
 	
