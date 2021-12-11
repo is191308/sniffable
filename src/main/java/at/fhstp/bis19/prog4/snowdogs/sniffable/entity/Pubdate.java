@@ -52,6 +52,10 @@ public class Pubdate extends BaseEntity implements Comparable<Pubdate>{
 	@JsonIgnore
 	@ManyToMany(targetEntity = Dog.class, mappedBy = "shares", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Dog> pubdateShares;
+	
+	public void addComment(Comment comment) {
+		this.pubdateComments.add(comment);
+	}
 
 	@Override
 	public int compareTo(Pubdate o) {

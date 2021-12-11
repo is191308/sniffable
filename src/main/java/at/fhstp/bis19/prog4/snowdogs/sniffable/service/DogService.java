@@ -3,6 +3,7 @@ package at.fhstp.bis19.prog4.snowdogs.sniffable.service;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -148,12 +149,8 @@ public class DogService {
 			Set<PubdateDTO> timeline = new TreeSet<>();
 			Dog dog = dogRepo.findById(id).get();
 			for (Dog d : dog.getFollow()) {
-				for (Pubdate  p : d.getPubdates()) {
-					timeline.add(new PubdateDTO(p));
-				}
-				for (Pubdate  p : d.getShares()) {
-					timeline.add(new PubdateDTO(p));
-				}
+				timeline.addAll(d.getPubdates().stream().map(p -> new PubdateDTO(p)).collect(Collectors.toSet()));
+				timeline.addAll(d.getShares().stream().map(p -> new PubdateDTO(p)).collect(Collectors.toSet()));
 			}
 			return timeline;
 		} else {

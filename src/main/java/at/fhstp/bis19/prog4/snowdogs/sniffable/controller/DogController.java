@@ -122,7 +122,6 @@ public class DogController {
 	 * TIMELINE
 	 * @param id dogid
 	 * @return timeline
-	 * @throws SniffableException
 	 */
 	@GetMapping(value = "{id}/timeline")
 	public Set<PubdateDTO> getTimeline(@PathVariable(value = "id", required = true) int id) {
