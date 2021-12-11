@@ -59,7 +59,7 @@ public class Pubdate extends BaseEntity implements Comparable<Pubdate>{
 
 	@Override
 	public int compareTo(Pubdate o) {
-		return (this.timestamp.compareTo(o.timestamp)) * (-1);
+		return o.timestamp.compareTo(this.timestamp);
 	}
 	
 }

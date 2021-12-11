@@ -18,7 +18,7 @@ public class PubdateDTO implements Comparable<PubdateDTO> {
 
 	@Override
 	public int compareTo(PubdateDTO o) {
-		return this.timestamp.compareTo(o.timestamp) * (-1);
+		return o.timestamp.compareTo(this.timestamp);
 	}
 
 }
