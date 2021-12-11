@@ -47,6 +47,14 @@ public class DogService {
 		}
 	}
 	
+	public DogDTO getByName(String name) throws SniffableNotFoundException {
+		if (!dogRepo.findByNameIgnoreCase(name).isEmpty()) {
+			return new DogDTO(dogRepo.findByNameIgnoreCase(name).get(0));
+		} else {
+			throw new SniffableNotFoundException("dog with name \"" + name + "\" + not exists");
+		}
+	}
+	
 	public DogDTO createDog(NewDogDTO dog) throws SniffableException {
 		if (dog.getName() == null || dog.getName().isEmpty()) {
 			log.warn("Unable to register new dog \"{}\": name null or empty", dog.getName());
