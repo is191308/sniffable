@@ -24,7 +24,7 @@ public class Image extends BaseEntity {
 	private String name;
 	
 	@JsonIgnore
-	@Column(name = "imageData")
+	@Column(name = "imageData", nullable = false)
 	private byte[] imageData;
 	
 }
