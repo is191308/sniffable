@@ -5,12 +5,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.CommentDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewCommentDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewPubdateDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
@@ -25,7 +31,7 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.DogRepo;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.PubdateRepo;
 
 @Service
-public class PudateService {
+public class PudateService extends BaseService<Pubdate, PubdateDTO> {
 	@Autowired
 	PubdateRepo pubdateRepo;
 	
@@ -33,6 +39,16 @@ public class PudateService {
 	DogRepo dogRepo;
 	
 	private static final Logger log = LoggerFactory.getLogger(DogService.class);
+	
+	public PudateService() {
+		super(PubdateDTO.class);
+	}
+	
+	public DogDTO getByName(String name) throws SniffableNotFoundException {
+		return mapper.
+				map(dogRepo.findByNameIgnoreCase(name).
+						orElseThrow(() -> new SniffableNotFoundException("dog with name \"" + name + "\" + not exists")), DogDTO.class);
+	}
 	
 	public PubdateDTO createPubdate(NewPubdateDTO pubdate) throws SniffableException {
 		if (pubdate == null || pubdate.getTitle().isEmpty() || pubdate.getDog() == null) {
@@ -56,28 +72,6 @@ public class PudateService {
 		} else {
 			log.warn("Unable to create pubdate \"{}\": dog not found!", pubdate.getTitle());
 			throw new SniffableNotFoundException("dog not found");
-		}
-	}
-	
-	public Set<PubdateDTO> getAll() {
-		Set<PubdateDTO> pubdates = new HashSet<>();
-		pubdateRepo.findAll().forEach(p -> pubdates.add(new PubdateDTO(p)));
-		return pubdates;
-	}
-	
-	public PubdateDTO getById(int id) throws SniffableNotFoundException {
-		if (pubdateRepo.existsById(id)) {
-			return new PubdateDTO(pubdateRepo.findById(id).get());
-		} else {
-			throw new SniffableNotFoundException("pubdate with id \"" + id + "\" + not exists");
-		}
-	}
-	
-	public void delete(int id) throws SniffableNotFoundException {
-		if (pubdateRepo.existsById(id)) {
-			pubdateRepo.deleteById(id);
-		} else {
-			throw new SniffableNotFoundException("pubdate with id \"" + id + "\" + not exists");
 		}
 	}
 	

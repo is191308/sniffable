@@ -1,18 +1,25 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable.service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
+import org.apache.catalina.mapper.Mapper;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.CommentDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.DogDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDTO;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewDogDTO;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Comment;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableAlreadyExistsException;
@@ -23,7 +30,7 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.DogRepo;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.PubdateRepo;
 
 @Service
-public class DogService {
+public class DogService extends BaseService<Comment, DogDTO> {
 	@Autowired
 	DogRepo dogRepo;
 	
@@ -32,28 +39,14 @@ public class DogService {
 	
 	private static final Logger log = LoggerFactory.getLogger(DogService.class);
 	
-	public Set<DogDTO> getAll() {
-		Set<DogDTO> dogs = new HashSet<>();
-		for (Dog d : dogRepo.findAll()) {
-			dogs.add(new DogDTO(d));
-		}
-		return dogs;
-	}
-	
-	public DogDTO getById(int id) throws SniffableNotFoundException {
-		if (dogRepo.existsById(id)) {
-			return new DogDTO(dogRepo.findById(id).get());
-		} else {
-			throw new SniffableNotFoundException("dog with id \"" + id + "\" + not exists");
-		}
+	public DogService() {
+		super(DogDTO.class);
 	}
 	
 	public DogDTO getByName(String name) throws SniffableNotFoundException {
-		if (!dogRepo.findByNameIgnoreCase(name).isEmpty()) {
-			return new DogDTO(dogRepo.findByNameIgnoreCase(name).get(0));
-		} else {
-			throw new SniffableNotFoundException("dog with name \"" + name + "\" + not exists");
-		}
+		return mapper.
+				map(dogRepo.findByNameIgnoreCase(name).
+						orElseThrow(() -> new SniffableNotFoundException("dog with name \"" + name + "\" + not exists")), DogDTO.class);
 	}
 	
 	public DogDTO createDog(NewDogDTO dog) throws SniffableException {
@@ -81,14 +74,6 @@ public class DogService {
 	/*
 	public DogDTO updateDog() {
 	}*/
-	
-	public void delete(int id) throws SniffableNotFoundException {
-		if (dogRepo.existsById(id)) {
-			dogRepo.deleteById(id);
-		} else {
-			throw new SniffableNotFoundException("dog with id \"" + id + "\" + not exists");
-		}
-	}
 	
 	public void likePubdate(int id, int pid) throws SniffableException {
 		if (dogRepo.existsById(id) && pubdateRepo.existsById(pid)) {

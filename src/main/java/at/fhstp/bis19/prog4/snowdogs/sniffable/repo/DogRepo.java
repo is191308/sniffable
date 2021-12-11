@@ -1,11 +1,11 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable.repo;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog;
 
 @Repository
 public interface DogRepo extends BaseCrudRepository<Dog> {
-	public List<Dog> findByNameIgnoreCase(String name);
+	public Optional<Dog> findByNameIgnoreCase(String name);
 }
