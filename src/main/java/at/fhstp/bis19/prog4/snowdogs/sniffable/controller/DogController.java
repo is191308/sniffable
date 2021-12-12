@@ -61,7 +61,9 @@ public class DogController extends BaseController<Dog, DogDto> {
 	 * @param action (like|follow|share)
 	 */
 	@PostMapping(value = "{id}/{action}/{pid}")
-	public void createLikeShareFollow(@PathVariable(value = "id", required = true) int id, @PathVariable(value = "pid", required = true) int pid, @PathVariable(value = "action", required = true) String action) {
+	public void createLikeShareFollow(@PathVariable(value = "id", required = true) int id, 
+								@PathVariable(value = "pid", required = true) int pid, 
+								@PathVariable(value = "action", required = true) String action) {
 		try {
 			switch (action) {
 			case "like":
