@@ -41,7 +41,9 @@ public class DogController extends BaseController<Dog, DogDto> {
 	 * @return dog
 	 */
 	@PostMapping()
-	public DogDto createDog(@RequestBody(required = true) NewDogDto dog, @RequestHeader(value = masterkeyHeaderAttribute, required = false) String headerKey) {
+	public DogDto createDog(@RequestBody(required = true) NewDogDto dog,
+			@RequestHeader(value = masterkeyHeaderAttribute, required = false) 
+			String headerKey) {
 		String mk = env.getProperty(masterkeyConfigProperty);
 		try {
 			// Force Role User if masterkey is not present or invalid
@@ -89,7 +91,8 @@ public class DogController extends BaseController<Dog, DogDto> {
 	 * @return timeline
 	 */
 	@GetMapping(value = "{id}/timeline")
-	public Set<PubdateDto> getTimeline(@PathVariable(value = "id", required = true) int id) {
+	public Set<PubdateDto> getTimeline(
+			@PathVariable(value = "id", required = true) int id) {
 		try {
 			return cDogService.getTimeline(id);
 		} catch (SniffableException ex) {
@@ -103,7 +106,8 @@ public class DogController extends BaseController<Dog, DogDto> {
 	 * @return Pubdates
 	 */
 	@GetMapping(value = "{id}/pubdates")
-	public Set<PubdateDto> getPubdates(@PathVariable(value = "id", required = true) int id) {
+	public Set<PubdateDto> getPubdates(
+			@PathVariable(value = "id", required = true) int id) {
 		try {
 			return cDogService.getPubdates(id);
 		} catch (SniffableException ex) {
