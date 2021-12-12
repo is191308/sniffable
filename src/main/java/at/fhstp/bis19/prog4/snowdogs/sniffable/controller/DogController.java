@@ -49,7 +49,7 @@ public class DogController extends BaseController<Dog, DogDto> {
 			@RequestHeader(value = masterkeyHeaderAttribute, required = false) String headerKey) {
 		String mk = env.getProperty(masterkeyConfigProperty);
 		// Force Role User if masterkey is not present or invalid
-		if (mk == null || !(mk.equals(headerKey))) {
+		if (mk != null && !(mk.equals(headerKey))) {
 			dog.setRole(Role.USER);
 		}
 		return cDogService.createDog(dog);

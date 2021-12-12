@@ -68,8 +68,8 @@ public class BaseController <T extends BaseEntity, D extends BaseDto> {
 	    Map<String, Object> map = new HashMap<String, Object>();
         map.put("timestamp", new Date());
         map.put("status", 406);
-        map.put("error", "Bad Request");
-        map.put("message", e.getAllErrors().stream().map(o -> o.getDefaultMessage()).collect(Collectors.toList()).toString());
+        map.put("error", "Validation Error");
+        map.put("message", e.getAllErrors().stream().map(o -> o.getDefaultMessage()).collect(Collectors.toList()));
         map.put("path", request.getRequestURI());
 
         return new ResponseEntity<Object>(map, HttpStatus.NOT_ACCEPTABLE);
