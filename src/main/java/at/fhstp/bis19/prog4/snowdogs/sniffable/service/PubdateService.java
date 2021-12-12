@@ -33,7 +33,6 @@ public class PubdateService extends BaseService<Pubdate, PubdateDto> {
 	@Autowired
 	public PubdateService(PubdateRepo pubdateRepo, DogRepo dogRepo, CommentRepo commentRepo) {
 		super(PubdateDto.class, pubdateRepo);
-		System.out.println(pubdateRepo.toString() + "asdfa dsfa df asfas fa fsd");
 		this.dogRepo = dogRepo;
 		this.pubdateRepo = pubdateRepo;
 		this.commentRepo = commentRepo;
