@@ -49,12 +49,19 @@ public class BaseController <T extends BaseEntity, D extends BaseDto> {
 	
 	/**
 	 * DELETE by ID
+	 * @param id ID
 	 */
 	@DeleteMapping(value = "{id}")
 	public void deleteById(@PathVariable(value = "id", required = true) int id) {
 		cBaseService.delete(id);
 	}
 	
+	/**
+	 * DTO VADIDATION ERROR
+	 * @param request Request
+	 * @param e Error
+	 * @return ResponseEntity
+	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	private ResponseEntity<Object>handleMethodArgumentNotValidException(final HttpServletRequest request, final MethodArgumentNotValidException e) {
