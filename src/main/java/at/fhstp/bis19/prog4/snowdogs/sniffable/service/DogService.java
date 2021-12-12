@@ -24,16 +24,16 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.PubdateRepo;
 
 @Service
 public class DogService extends BaseService<Dog, DogDto> {
-	@Autowired
-	DogRepo dogRepo;
-
-	@Autowired
-	PubdateRepo pubdateRepo;
-
 	private static final Logger log = LoggerFactory.getLogger(DogService.class);
-
-	public DogService() {
-		super(DogDto.class);
+	
+	DogRepo dogRepo;
+	PubdateRepo pubdateRepo;
+	
+	@Autowired
+	public DogService(DogRepo dogRepo, PubdateRepo pubdateRepo) {
+		super(DogDto.class, dogRepo);
+		this.dogRepo = dogRepo;
+		this.pubdateRepo = pubdateRepo;
 	}
 
 	public DogDto getByName(String name) throws SniffableNotFoundException {

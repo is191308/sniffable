@@ -9,6 +9,4 @@ import lombok.NoArgsConstructor;
 public class NewCommentDto implements BaseDto {
 	@NotBlank
 	private String comment;
-	private NewPubdateDto pubdate;
-	private DogDto dog;
 }

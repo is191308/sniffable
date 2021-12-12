@@ -14,14 +14,14 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundExcept
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.BaseCrudRepository;
 
 public class BaseService<T extends BaseEntity, D extends BaseDto> {
-	@Autowired
 	BaseCrudRepository<T> repo;
-	
 	Class<D> typeParameterClass;
 	ModelMapper mapper = new ModelMapper();
 	
-	public BaseService(Class<D> typeParameterClass) {
+	@Autowired
+	public BaseService(Class<D> typeParameterClass, BaseCrudRepository<T> repo) {
         this.typeParameterClass = typeParameterClass;
+        this.repo = repo;
     }
 	
 	public Set<D> getAll() {
