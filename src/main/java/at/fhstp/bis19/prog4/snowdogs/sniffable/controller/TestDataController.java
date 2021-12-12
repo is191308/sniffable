@@ -6,27 +6,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.*;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog.Role;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.BaseCrudRepository;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.service.DogService;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.CommentRepo;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.DogRepo;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.PubdateRepo;
 
 /**
  * Generate Test data via GetRequest
- * 
- * @author Stefan
- *
  */
 @RestController
 public class TestDataController {
+	private DogRepo dogRepo;
+	private PubdateRepo pubdateRepo;
+	private CommentRepo commentRepo;
+	
 	@Autowired
-	private BaseCrudRepository<Dog> dogRepo;
-	@Autowired
-	private BaseCrudRepository<Pubdate> pubdateRepo;
-	@Autowired
-	private BaseCrudRepository<Comment> commentRepo;
-	@Autowired
-	DogService ds;
+	public TestDataController(DogRepo dogRepo, PubdateRepo pubdateRepo, CommentRepo commentRepo) {
+		this.dogRepo = dogRepo;
+		this.pubdateRepo = pubdateRepo;
+		this.commentRepo = commentRepo;
+	}
 
-	@GetMapping("/testdata")
+	@GetMapping({"/testdata", "/test"})
 	public String createTestData() {
 		try {
 			Dog dog1 = Dog.builder().name("UserDog1").password("asdfqwer123").role(Role.USER).build();
@@ -43,16 +43,16 @@ public class TestDataController {
 			
 			Pubdate pub1 = Pubdate.builder().title("Erster Pubdate von Testdog1").content("Useless sozial media content!").dog(dog1).picture(Image.builder().name("Pic1").imageData("asdfadfasfasf".getBytes()).build()).build();
 			pubdateRepo.save(pub1);
-			pubdateRepo.save(Pubdate.builder().title("Zweiter Pubdate von Testdog1").content("More useless sozial media content!").dog(dog1).picture(Image.builder().name("Pic2").imageData("asdfdsfdasfasf".getBytes()).build()).build());
-			pubdateRepo.save(Pubdate.builder().title("Erster Pubdate von Testdog2").content("Useless sozial media content!").dog(dog2).picture(Image.builder().name("Pic3").imageData("g24535345g32g5325".getBytes()).build()).build());
-			pubdateRepo.save(Pubdate.builder().title("Zweiter Pubdate von Testdog2").content("Useless sozial media content!").dog(dog2).picture(Image.builder().name("Pic4").imageData("45d3d2535d25".getBytes()).build()).build());
-			
 			commentRepo.save(Comment.builder().comment("Your right!").dog(adminDog).pubdate(pub1).build());
-			commentRepo.save(Comment.builder().comment("Your right!").dog(modDog).pubdate(pub1).build());			
+			commentRepo.save(Comment.builder().comment("Your totally right!").dog(modDog).pubdate(pub1).build());	
+			
+			pubdateRepo.save(Pubdate.builder().title("Zweiter Pubdate von Testdog1").content("More useless sozial media content!").dog(dog1).picture(Image.builder().name("Pic2").imageData("asdfdsfdasfasf".getBytes()).build()).build());
+			pubdateRepo.save(Pubdate.builder().title("Hello").content("Hello i am Testdog2!").dog(dog2).picture(Image.builder().name("Pic3").imageData("g24535345g32g5325".getBytes()).build()).build());
+			pubdateRepo.save(Pubdate.builder().title("Hello again").content("Please follow me!").dog(dog2).picture(Image.builder().name("Pic4").imageData("45d3d2535d25".getBytes()).build()).build());	
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "Failed to create test data!";
 		}
-		return "Test data created!";
+		return "Test data created successfully!";
 	}
 }
