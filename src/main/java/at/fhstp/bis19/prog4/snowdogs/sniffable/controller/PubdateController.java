@@ -15,14 +15,14 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewPubdateDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.service.PudateService;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.service.PubdateService;
 
 @RestController
 @RequestMapping("/pubdate")
 public class PubdateController extends BaseController<Pubdate, PubdateDto>{
 
 	@Autowired
-	private PudateService cPubdateService;
+	private PubdateService cPubdateService;
 	
 	
 	/**
@@ -39,16 +39,17 @@ public class PubdateController extends BaseController<Pubdate, PubdateDto>{
 		}
 	}
 	
-	
 	/**
-	 * ADD Comment
-	 * @param comment comment
-	 * @return comment
+	 * ADD COMMENT
+	 * @param id pubdateID
+	 * @param did dogID
+	 * @param comment Comment
+	 * @return Comment
 	 */
-	@PostMapping(value = "{id}/comment")
-	public CommentDto commentPubdate(@PathVariable(value = "id", required = true) int id, @RequestBody(required = true) final NewCommentDto comment) {
+	@PostMapping(value = "{id}/comment/{did}")
+	public CommentDto commentPubdate(@PathVariable(value = "id", required = true) int id, @PathVariable(value = "did", required = true) int did, @RequestBody(required = true) final NewCommentDto comment) {
 		try {
-			return cPubdateService.addComment(id, comment);
+			return cPubdateService.addComment(id, did, comment);
 		} catch (SniffableException ex) {
 			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
 		}
