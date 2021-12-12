@@ -1,5 +1,7 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +33,7 @@ public class PubdateController extends BaseController<Pubdate, PubdateDto> {
 	 * @return Pubdate
 	 */
 	@PostMapping()
-	public PubdateDto createPubdate(@RequestBody(required = true) final NewPubdateDto pubdate) {
+	public PubdateDto createPubdate(@RequestBody(required = true) @Valid final NewPubdateDto pubdate) {
 		return cPubdateService.createPubdate(pubdate);
 	}
 
