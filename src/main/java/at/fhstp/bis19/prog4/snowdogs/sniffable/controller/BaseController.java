@@ -6,16 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.server.ResponseStatusException;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.BaseDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.BaseEntity;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.service.BaseService;
 
 public class BaseController <T extends BaseEntity, D extends BaseDto> {
-	@Autowired
 	BaseService<T, D> cBaseService;
+	
+	@Autowired
+	public BaseController(BaseService<T, D> cBaseService) {
+		this.cBaseService = cBaseService;
+	}
 	
 	/**
 	 * SELECT ALL
@@ -31,11 +33,7 @@ public class BaseController <T extends BaseEntity, D extends BaseDto> {
 	 */
 	@GetMapping(value = "{id}")
 	public D getByID(@PathVariable(value = "id", required = true) int id) {
-		try {
-			return cBaseService.getById(id);
-		} catch (SniffableNotFoundException ex) {
-			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
-		}
+		return cBaseService.getById(id);
 	}
 	
 	/**
@@ -43,11 +41,7 @@ public class BaseController <T extends BaseEntity, D extends BaseDto> {
 	 */
 	@DeleteMapping(value = "{id}")
 	public void deleteById(@PathVariable(value = "id", required = true) int id) {
-		try {
-			cBaseService.delete(id);
-		} catch (SniffableNotFoundException ex) {
-			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
-		}
+		cBaseService.delete(id);
 	}
 	
 }

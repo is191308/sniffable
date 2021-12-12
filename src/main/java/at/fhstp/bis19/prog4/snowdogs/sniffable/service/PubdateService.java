@@ -39,13 +39,13 @@ public class PubdateService extends BaseService<Pubdate, PubdateDto> {
 		this.commentRepo = commentRepo;
 	}
 	
-	public DogDto getByName(String name) throws SniffableNotFoundException {
+	public DogDto getByName(String name) {
 		return mapper.
 				map(dogRepo.findByNameIgnoreCase(name).
 						orElseThrow(() -> new SniffableNotFoundException("dog with name \"" + name + "\" + not exists")), DogDto.class);
 	}
 	
-	public PubdateDto createPubdate(NewPubdateDto pubdate) throws SniffableException {
+	public PubdateDto createPubdate(NewPubdateDto pubdate) {
 		if (pubdate == null || pubdate.getTitle().isEmpty() || pubdate.getDog() == null) {
 			log.warn("Unable to create pubdate: pubdate null or empty");
 			throw new SniffableIllegalValueException("pubdate null or empty");
@@ -68,7 +68,7 @@ public class PubdateService extends BaseService<Pubdate, PubdateDto> {
 		}
 	}
 	
-	public CommentDto addComment(int pubdateId, int dogID, NewCommentDto comment) throws SniffableException {
+	public CommentDto addComment(int pubdateId, int dogID, NewCommentDto comment) {
 		Optional<Dog> dog = dogRepo.findById(dogID);
 		Optional<Pubdate> pub = pubdateRepo.findById(pubdateId);
 		if (pub.isPresent()) {

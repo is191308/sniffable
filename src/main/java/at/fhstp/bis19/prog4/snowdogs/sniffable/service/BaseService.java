@@ -30,13 +30,13 @@ public class BaseService<T extends BaseEntity, D extends BaseDto> {
 				.collect(Collectors.toSet());
 	}
 	
-	public D getById(int id) throws SniffableNotFoundException {
+	public D getById(int id) {
 		return mapper.
 				map(repo.findById(id).
 						orElseThrow(() -> new SniffableNotFoundException("entity with id \"" + id + "\" + not exists")), typeParameterClass);
 	}
 	
-	public void delete(int id) throws SniffableNotFoundException {
+	public void delete(int id) {
 		try {
 			repo.deleteById(id);
 		} catch (EmptyResultDataAccessException ex) {
