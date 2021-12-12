@@ -13,5 +13,4 @@ public class NewPubdateDto implements BaseDto {
 	@NotBlank
 	private String content;
 	private ImageDto picture;
-	private DogDto dog;
 }
