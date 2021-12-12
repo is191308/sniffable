@@ -85,6 +85,38 @@ public class DogController extends BaseController<Dog, DogDto> {
 		}
 	}
 	
+	//---------------------Begin TOB Change>
+	/**
+	 * Post Comment
+	 * @param id dog id
+	 * @param action (comment)
+	 */
+	
+	/*
+	@PostMapping(value = "{id}/{action}")
+	public void createLikeShareFollow(@PathVariable(value = "id", required = true) int id,
+								@PathVariable(value = "action", required = true) String action) {
+		try {
+			switch (action) {
+			case "comment":
+				cDogService.addCommment(id,action);
+				break;
+			case "share":
+				cDogService.sharePubdate(id, pid);
+				break;
+			case "follow":
+				cDogService.followDog(id, pid);
+				break;
+			default:
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+			}
+		} catch (SniffableException ex) {
+			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
+		}
+	}
+//-----------------------_END TOB Change>
+*/	
+	
 	/**
 	 * TIMELINE
 	 * @param id dogid

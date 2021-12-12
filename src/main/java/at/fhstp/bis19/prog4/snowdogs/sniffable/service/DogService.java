@@ -19,6 +19,7 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableAlreadyExistsE
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableIllegalValueException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.CommentRepo;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.DogRepo;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.PubdateRepo;
 
@@ -69,6 +70,28 @@ public class DogService extends BaseService<Dog, DogDto> {
 	 * public DogDTO updateDog() { }
 	 */
 
+	//---------_> BEGIN Tob changes
+	
+/*
+	public void commentPubdate(int id, int cid) throws SniffableException {
+		if (dogRepo.existsById(id) && pubdateRepo.existsById(cid)  ) {
+			Dog dog = dogRepo.findById(id).get();
+			Pubdate pubdate = pubdateRepo.findById(cid).get();
+			dog.addLike(pubdate);
+			dogRepo.save(dog);
+			if (dogRepo.save(dog) != null) {
+				log.info("Like \"{}\" from \"{}\" sucessfully created!", pubdate.getTitle(), dog.getName());
+			} else {
+				log.info("Unable to like \"{}\" from \"{}\"!", pubdate.getTitle(), dog.getName());
+				throw new SniffableException("unable to create like");
+			}
+		} else {
+			throw new SniffableNotFoundException("dog or pubdate not exists");
+		}
+	}
+*/	
+//----------------_> END Tob changes	
+	
 	public void likePubdate(int id, int pid) throws SniffableException {
 		if (dogRepo.existsById(id) && pubdateRepo.existsById(pid)) {
 			Dog dog = dogRepo.findById(id).get();
