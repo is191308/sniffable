@@ -63,16 +63,16 @@ public class BaseController <T extends BaseEntity, D extends BaseDto> {
 	 * @return ResponseEntity
 	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
 	private ResponseEntity<Object>handleMethodArgumentNotValidException(final HttpServletRequest request, final MethodArgumentNotValidException e) {
 	    Map<String, Object> map = new HashMap<String, Object>();
         map.put("timestamp", new Date());
-        map.put("status", 400);
+        map.put("status", 406);
         map.put("error", "Bad Request");
         map.put("message", e.getAllErrors().stream().map(o -> o.getDefaultMessage()).collect(Collectors.toList()).toString());
         map.put("path", request.getRequestURI());
 
-        return new ResponseEntity<Object>(map, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Object>(map, HttpStatus.NOT_ACCEPTABLE);
 	}
 
 }
