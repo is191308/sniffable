@@ -6,15 +6,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.CommentDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewCommentDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewPubdateDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.service.BaseService;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.service.PubdateService;
 
 @RestController
