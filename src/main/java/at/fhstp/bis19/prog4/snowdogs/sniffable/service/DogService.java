@@ -141,7 +141,7 @@ public class DogService extends BaseService<Dog, DogDto> {
 			timeline.addAll(
 					d.getPubdates().stream().map(p -> mapper.map(p, PubdateDto.class)).collect(Collectors.toSet()));
 			timeline.addAll(
-					d.getShares().stream().map(p -> mapper.map(p, PubdateDto.class)).collect(Collectors.toSet()));
+					d.getPshares().stream().map(p -> mapper.map(p, PubdateDto.class)).collect(Collectors.toSet()));
 		}
 		return timeline;
 	}

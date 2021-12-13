@@ -35,26 +35,26 @@ public class Pubdate extends BaseEntity implements Comparable<Pubdate>{
 	@Column(name = "content")
 	private String content;
 	
-	@OneToOne(targetEntity = Image.class, cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToOne(targetEntity = Image.class, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Image picture;
 	
-	@ManyToOne(targetEntity = Dog.class, optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(targetEntity = Dog.class, optional = false)
 	private Dog dog;
 	
 	@JsonIgnore
-	@OneToMany(targetEntity = Comment.class, mappedBy = "pubdate", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
-	private Set<Comment> pubdateComments;
+	@OneToMany(targetEntity = Comment.class, mappedBy = "pubdate", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Comment> comments;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Dog.class, mappedBy = "likes", fetch = FetchType.EAGER)
-	private Set<Dog> pubdateLikes;
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "plikes")
+	private Set<Dog> dlikes;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Dog.class, mappedBy = "shares", fetch = FetchType.EAGER)
-	private Set<Dog> pubdateShares;
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "pshares")
+	private Set<Dog> dshares;
 	
 	public void addComment(Comment comment) {
-		this.pubdateComments.add(comment);
+		this.comments.add(comment);
 	}
 
 	@Override

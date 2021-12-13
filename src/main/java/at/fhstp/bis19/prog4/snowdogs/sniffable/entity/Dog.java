@@ -36,24 +36,27 @@ public class Dog extends BaseEntity {
 	private Dog.Role role = Role.USER;
 	
 	@JsonIgnore
-	@OneToMany(targetEntity = Pubdate.class, mappedBy = "dog", orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(targetEntity = Pubdate.class, mappedBy = "dog", orphanRemoval = true)
 	private Set<Pubdate> pubdates;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Dog.class, fetch = FetchType.EAGER)
+	@ManyToMany(targetEntity = Dog.class, fetch = FetchType.LAZY)
 	private Set<Dog> follow;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Dog.class, mappedBy = "follow", fetch = FetchType.EAGER)
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "follow", cascade = CascadeType.ALL)
 	private Set<Dog> followers;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Pubdate.class, fetch = FetchType.EAGER)
-	private Set<Pubdate> likes;
+	@ManyToMany(targetEntity = Pubdate.class)
+	private Set<Pubdate> plikes;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Pubdate.class, fetch = FetchType.EAGER)
-	private Set<Pubdate> shares;
+	@ManyToMany(targetEntity = Pubdate.class)
+	private Set<Pubdate> pshares;
+	
+	@OneToMany(targetEntity = Comment.class, mappedBy = "dog", orphanRemoval = true, cascade = CascadeType.ALL)
+	private Set<Comment> comments;
 	
 	
 	public void addFollow(Dog follow) {
@@ -65,18 +68,18 @@ public class Dog extends BaseEntity {
 	}
 
 	public void addLike(Pubdate like) {
-		this.likes.add(like);
+		this.plikes.add(like);
 	}
 	
 	public void removeLike(Pubdate like) {
-		this.likes.remove(like);
+		this.plikes.remove(like);
 	}
 	
 	public void addShare(Pubdate share) {
-		this.shares.add(share);
+		this.pshares.add(share);
 	}
 	
 	public void removeShare(Pubdate share) {
-		this.shares.remove(share);
+		this.pshares.remove(share);
 	}	
 }
