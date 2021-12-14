@@ -90,6 +90,9 @@ public class DogService extends BaseService<Dog, DogDto> {
 		if (dogRepo.existsById(id) && pubdateRepo.existsById(pid)) {
 			Dog dog = dogRepo.findById(id).get();
 			Pubdate pubdate = pubdateRepo.findById(pid).get();
+			if (dog.equals(pubdate.getDog())) {
+				throw new SniffableIllegalValueException("self share not allowed");
+			}
 			dog.addShare(pubdate);
 			dogRepo.save(dog);
 			if (dogRepo.save(dog) != null) {
@@ -141,7 +144,7 @@ public class DogService extends BaseService<Dog, DogDto> {
 			timeline.addAll(
 					d.getPubdates().stream().map(p -> mapper.map(p, PubdateDto.class)).collect(Collectors.toSet()));
 			timeline.addAll(
-					d.getPshares().stream().map(p -> mapper.map(p, PubdateDto.class)).collect(Collectors.toSet()));
+					d.getShared().stream().map(p -> mapper.map(p, PubdateDto.class)).collect(Collectors.toSet()));
 		}
 		return timeline;
 	}
