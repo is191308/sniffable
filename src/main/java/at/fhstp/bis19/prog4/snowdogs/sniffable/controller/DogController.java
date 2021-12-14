@@ -59,7 +59,7 @@ public class DogController extends BaseController<Dog, DogDto> {
 	 * LIKE SHARE FOLLOW
 	 * 
 	 * @param id     dog id
-	 * @param pid    pubdate or dog id
+	 * @param pid    pubdate id
 	 * @param action (like|follow|share)
 	 */
 	@PostMapping(value = "{id}/{action}/{pid}")
@@ -77,10 +77,10 @@ public class DogController extends BaseController<Dog, DogDto> {
 			cDogService.followDog(id, pid);
 			break;
 		default:
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "action \"" + action + "\" not allowed");
 		}
 	}
-
+	
 	/**
 	 * TIMELINE
 	 * 
