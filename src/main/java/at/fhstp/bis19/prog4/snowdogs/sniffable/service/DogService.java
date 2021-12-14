@@ -64,11 +64,6 @@ public class DogService extends BaseService<Dog, DogDto> {
 		}
 	}
 
-	// TODO
-	/*
-	 * public DogDTO updateDog() { }
-	 */
-
 	public void likePubdate(int id, int pid) {
 		if (dogRepo.existsById(id) && pubdateRepo.existsById(pid)) {
 			Dog dog = dogRepo.findById(id).get();
@@ -148,6 +143,11 @@ public class DogService extends BaseService<Dog, DogDto> {
 		}
 		return timeline;
 	}
+	
+	// TODO
+	/*
+	 * public DogDTO updateDog() { }
+	 */
 
 	/*
 	 * public DogDTO registerDog(String name, String password, Role role) throws
