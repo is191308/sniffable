@@ -60,7 +60,7 @@ public class Dog extends BaseEntity {
 	
 	@PreRemove
 	private void removeManyToManyRelations() {
-	   for (Dog d: this.followers) {
+	   for (Dog d : this.followers) {
 		   d.getFollow().remove(this);
 	   }
 	}
