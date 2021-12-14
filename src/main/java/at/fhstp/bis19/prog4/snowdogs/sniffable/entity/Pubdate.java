@@ -46,17 +46,28 @@ public class Pubdate extends BaseEntity implements Comparable<Pubdate>{
 	private Set<Comment> comments;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Dog.class, mappedBy = "plikes")
-	private Set<Dog> dlikes;
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "liked")
+	private Set<Dog> likes;
 	
 	@JsonIgnore
-	@ManyToMany(targetEntity = Dog.class, mappedBy = "pshares")
-	private Set<Dog> dshares;
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "shared")
+	private Set<Dog> shares;
+	
+	@PreRemove
+	private void removeManyToManyRelations() {
+	   for (Dog d: this.likes) {
+		   d.getLiked().remove(this);
+	   }
+	   for (Dog d: this.shares) {
+		   d.getShared().remove(this);
+	   }
+	}
 	
 	public void addComment(Comment comment) {
 		this.comments.add(comment);
 	}
 
+	// Sort desc by timestamp
 	@Override
 	public int compareTo(Pubdate o) {
 		return o.timestamp.compareTo(this.timestamp);
