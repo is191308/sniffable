@@ -5,8 +5,6 @@ import java.util.Set;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,33 +21,46 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Pubdate extends BaseEntity implements Comparable<Pubdate>{	
+public class Pubdate extends BaseEntity implements Comparable<Pubdate> {
+	/**
+	 * title of the pubdate (must be set)
+	 */
 	@Column(name = "title" , nullable = false)
 	private String title;
 	
+	/**
+	 * time when the pubdate was created (must be set)
+	 * default: current creation time
+	 */
 	@Column(name = "timestamp", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@Builder.Default
 	private Date timestamp = new Date();
 	
+	/**
+	 * content of the pubdate (optional)
+	 */
 	@Column(name = "content")
 	private String content;
 	
+	/**
+	 * pubdate picture (optional)
+	 */
 	@OneToOne(targetEntity = Image.class, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Image picture;
 	
+	/**
+	 * dog who created the pubdate
+	 */
 	@ManyToOne(targetEntity = Dog.class, optional = false)
 	private Dog dog;
-	
-	@JsonIgnore
+
 	@OneToMany(targetEntity = Comment.class, mappedBy = "pubdate", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Comment> comments;
 	
-	@JsonIgnore
 	@ManyToMany(targetEntity = Dog.class, mappedBy = "liked")
 	private Set<Dog> likes;
 	
-	@JsonIgnore
 	@ManyToMany(targetEntity = Dog.class, mappedBy = "shared")
 	private Set<Dog> shares;
 	
