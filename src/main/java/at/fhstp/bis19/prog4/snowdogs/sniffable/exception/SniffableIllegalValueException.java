@@ -4,24 +4,7 @@ import org.springframework.http.HttpStatus;
 
 @SuppressWarnings("serial")
 public class SniffableIllegalValueException extends SniffableException {
-	public SniffableIllegalValueException() {
-	}
-
 	public SniffableIllegalValueException(String message) {
-		super(message);
+		super(HttpStatus.BAD_REQUEST, message);
 	}
-	
-	public SniffableIllegalValueException(Throwable cause) {
-		super(cause);
-	}
-
-	public SniffableIllegalValueException(String message, Throwable cause) {
-		super(message, cause);
-	}
-	
-	@Override
-	public HttpStatus getHTTPStatus() {
-		return HttpStatus.BAD_REQUEST;
-	}
-	
 }

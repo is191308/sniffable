@@ -4,24 +4,7 @@ import org.springframework.http.HttpStatus;
 
 @SuppressWarnings("serial")
 public class SniffableNotFoundException extends SniffableException {
-	public SniffableNotFoundException() {
-	}
-
 	public SniffableNotFoundException(String message) {
-		super(message);
+		super(HttpStatus.NOT_FOUND, message);
 	}
-	
-	public SniffableNotFoundException(Throwable cause) {
-		super(cause);
-	}
-
-	public SniffableNotFoundException(String message, Throwable cause) {
-		super(message, cause);
-	}
-	
-	@Override
-	public HttpStatus getHTTPStatus() {
-		return HttpStatus.NOT_FOUND;
-	}
-	
 }

@@ -1,6 +1,7 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable.controller;
 
 import java.util.Set;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -19,7 +20,6 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.PubdateDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.dto.NewDogDto;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Dog.Role;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.service.DogService;
 
 @RestController
@@ -28,11 +28,15 @@ public class DogController extends BaseController<Dog, DogDto> {
 	private final String masterkeyHeaderAttribute = "masterkey";
 	private final String masterkeyConfigProperty = "sniffers.masterKey";
 
-	@Autowired
 	private DogService cDogService;
-
-	@Autowired
 	private Environment env;
+	
+	@Autowired
+	public DogController(DogService cDogService, Environment env) {
+		super(cDogService);
+		this.env = env;
+		this.cDogService = cDogService;
+	}
 
 	/**
 	 * CREATE Dog
@@ -41,28 +45,31 @@ public class DogController extends BaseController<Dog, DogDto> {
 	 * @return dog
 	 */
 	@PostMapping()
+<<<<<<< HEAD
 	public DogDto createDog(@RequestBody(required = true) NewDogDto dog,
 			@RequestHeader(value = masterkeyHeaderAttribute, required = false) 
 			String headerKey) {
+=======
+	public DogDto createDog(@RequestBody(required = true) @Valid final NewDogDto dog,
+			@RequestHeader(value = masterkeyHeaderAttribute, required = false) String headerKey) {
+>>>>>>> refs/remotes/origin/berger
 		String mk = env.getProperty(masterkeyConfigProperty);
-		try {
-			// Force Role User if masterkey is not present or invalid
-			if (mk == null || !(mk.equals(headerKey))) {
-				dog.setRole(Role.USER);
-			}
-			return cDogService.createDog(dog);
-		} catch (SniffableException ex) {
-			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
+		// Force Role User if masterkey is not present or invalid
+		if (mk != null && !(mk.equals(headerKey))) {
+			dog.setRole(Role.USER);
 		}
+		return cDogService.createDog(dog);
 	}
 
 	/**
 	 * LIKE SHARE FOLLOW
-	 * @param id dog id
-	 * @param pid pubdate or dog id
+	 * 
+	 * @param id     dog id
+	 * @param pid    pubdate id
 	 * @param action (like|follow|share)
 	 */
 	@PostMapping(value = "{id}/{action}/{pid}")
+<<<<<<< HEAD
 	public void createLikeShareFollow(@PathVariable(value = "id", required = true) int id, 
 								@PathVariable(value = "pid", required = true) int pid, 
 								@PathVariable(value = "action", required = true) String action) {
@@ -82,6 +89,23 @@ public class DogController extends BaseController<Dog, DogDto> {
 			}
 		} catch (SniffableException ex) {
 			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
+=======
+	public void createLikeShareFollow(@PathVariable(value = "id", required = true) int id,
+			@PathVariable(value = "pid", required = true) int pid,
+			@PathVariable(value = "action", required = true) String action) {
+		switch (action) {
+		case "like":
+			cDogService.likePubdate(id, pid);
+			break;
+		case "share":
+			cDogService.sharePubdate(id, pid);
+			break;
+		case "follow":
+			cDogService.followDog(id, pid);
+			break;
+		default:
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "action \"" + action + "\" not allowed");
+>>>>>>> refs/remotes/origin/berger
 		}
 	}
 	
@@ -119,10 +143,12 @@ public class DogController extends BaseController<Dog, DogDto> {
 	
 	/**
 	 * TIMELINE
+	 * 
 	 * @param id dogid
 	 * @return timeline
 	 */
 	@GetMapping(value = "{id}/timeline")
+<<<<<<< HEAD
 	public Set<PubdateDto> getTimeline(
 			@PathVariable(value = "id", required = true) int id) {
 		try {
@@ -130,14 +156,20 @@ public class DogController extends BaseController<Dog, DogDto> {
 		} catch (SniffableException ex) {
 			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
 		}
+=======
+	public Set<PubdateDto> getTimeline(@PathVariable(value = "id", required = true) int id) {
+		return cDogService.getTimeline(id);
+>>>>>>> refs/remotes/origin/berger
 	}
-	
+
 	/**
 	 * PUBDATES
+	 * 
 	 * @param id dogid
 	 * @return Pubdates
 	 */
 	@GetMapping(value = "{id}/pubdates")
+<<<<<<< HEAD
 	public Set<PubdateDto> getPubdates(
 			@PathVariable(value = "id", required = true) int id) {
 		try {
@@ -145,27 +177,20 @@ public class DogController extends BaseController<Dog, DogDto> {
 		} catch (SniffableException ex) {
 			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
 		}
+=======
+	public Set<PubdateDto> getPubdates(@PathVariable(value = "id", required = true) int id) {
+		return cDogService.getPubdates(id);
+>>>>>>> refs/remotes/origin/berger
 	}
-	
-	
-	/*@DeleteMapping(value = {"{id}/{action}/{pid}"})
-	public void deleteLikeShareFollow(@PathVariable(value = "id", required = true) int id, @PathVariable(value = "pid", required = true) int pid, @PathVariable(value = "action", required = true) String action) {
-		try {
-			switch (action) {
-			case "like":
-				cDogService.likePubdateDelete(id, pid);
-				break;
-			case "share":
-				cDogService.sharePubdateDelete(id, pid);
-				break;
-			case "follow":
-				cDogService.followDogDelete(id, pid);
-				break;
-			default:
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-			}
-		} catch (SniffableException ex) {
-			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
-		}
-	}*/
+
+	/*
+	 * @DeleteMapping(value = {"{id}/{action}/{pid}"}) public void
+	 * deleteLikeShareFollow(@PathVariable(value = "id", required = true) int
+	 * id, @PathVariable(value = "pid", required = true) int
+	 * pid, @PathVariable(value = "action", required = true) String action) { switch
+	 * (action) { case "like": cDogService.likePubdateDelete(id, pid); break; case
+	 * "share": cDogService.sharePubdateDelete(id, pid); break; case "follow":
+	 * cDogService.followDogDelete(id, pid); break; default: throw new
+	 * ResponseStatusException(HttpStatus.BAD_REQUEST); }
+	 */
 }

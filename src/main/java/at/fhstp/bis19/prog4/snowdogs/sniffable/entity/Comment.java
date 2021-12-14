@@ -18,12 +18,21 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class Comment extends BaseEntity {
+	/**
+	 * comment content
+	 */
 	@Column(name = "comment")
 	private String comment;
 
+	/**
+	 * pubdate where the comment belongs to
+	 */
 	@ManyToOne(targetEntity = Pubdate.class, optional = false)
 	private Pubdate pubdate;
 
+	/**
+	 * dog who created the comment
+	 */
 	@ManyToOne(targetEntity = Dog.class, optional = false)
 	private Dog dog;
 }

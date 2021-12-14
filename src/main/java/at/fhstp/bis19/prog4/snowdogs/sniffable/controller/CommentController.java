@@ -12,5 +12,7 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.service.CommentService;
 @RequestMapping("/comment")
 public class CommentController extends BaseController<Comment, CommentDto> {
 	@Autowired
-	CommentService cCommentService;
+	public CommentController(CommentService cCommentService) {
+		super(cCommentService);
+	}
 }

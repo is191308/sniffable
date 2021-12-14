@@ -37,14 +37,14 @@ public class DogService extends BaseService<Dog, DogDto> {
 		this.pubdateRepo = pubdateRepo;
 	}
 
-	public DogDto getByName(String name) throws SniffableNotFoundException {
+	public DogDto getByName(String name) {
 		return mapper.map(
 				dogRepo.findByNameIgnoreCase(name).orElseThrow(
 						() -> new SniffableNotFoundException("dog with name \"" + name + "\" + not exists")),
 				DogDto.class);
 	}
 
-	public DogDto createDog(NewDogDto dog) throws SniffableException {
+	public DogDto createDog(NewDogDto dog) {
 		if (dog.getName() == null || dog.getName().isEmpty()) {
 			log.warn("Unable to register new dog \"{}\": name null or empty", dog.getName());
 			throw new SniffableIllegalValueException("name null or empty");
@@ -65,6 +65,7 @@ public class DogService extends BaseService<Dog, DogDto> {
 		}
 	}
 
+<<<<<<< HEAD
 	// TODO
 	/*
 	 * public DogDTO updateDog() { }
@@ -93,6 +94,9 @@ public class DogService extends BaseService<Dog, DogDto> {
 //----------------_> END Tob changes	
 	
 	public void likePubdate(int id, int pid) throws SniffableException {
+=======
+	public void likePubdate(int id, int pid) {
+>>>>>>> refs/remotes/origin/berger
 		if (dogRepo.existsById(id) && pubdateRepo.existsById(pid)) {
 			Dog dog = dogRepo.findById(id).get();
 			Pubdate pubdate = pubdateRepo.findById(pid).get();
@@ -109,10 +113,13 @@ public class DogService extends BaseService<Dog, DogDto> {
 		}
 	}
 
-	public void sharePubdate(int id, int pid) throws SniffableException {
+	public void sharePubdate(int id, int pid) {
 		if (dogRepo.existsById(id) && pubdateRepo.existsById(pid)) {
 			Dog dog = dogRepo.findById(id).get();
 			Pubdate pubdate = pubdateRepo.findById(pid).get();
+			if (dog.equals(pubdate.getDog())) {
+				throw new SniffableIllegalValueException("self share not allowed");
+			}
 			dog.addShare(pubdate);
 			dogRepo.save(dog);
 			if (dogRepo.save(dog) != null) {
@@ -126,7 +133,7 @@ public class DogService extends BaseService<Dog, DogDto> {
 		}
 	}
 
-	public void followDog(int id, int did) throws SniffableException {
+	public void followDog(int id, int did) {
 		if (id == did) {
 			throw new SniffableIllegalValueException("self follow not allowed");
 		}
@@ -146,7 +153,7 @@ public class DogService extends BaseService<Dog, DogDto> {
 		}
 	}
 
-	public Set<PubdateDto> getPubdates(int id) throws SniffableException {
+	public Set<PubdateDto> getPubdates(int id) {
 		Optional<Dog> dog = dogRepo.findById(id);
 		if (dog.isPresent()) {
 			return dog.get().getPubdates().stream().map(p -> mapper.map(p, PubdateDto.class))
@@ -156,7 +163,7 @@ public class DogService extends BaseService<Dog, DogDto> {
 		}
 	}
 
-	public Set<PubdateDto> getTimeline(int id) throws SniffableException {
+	public Set<PubdateDto> getTimeline(int id) {
 		Optional<Dog> dog = dogRepo.findById(id);
 		Set<PubdateDto> timeline = new TreeSet<>();
 		for (Dog d : dog.orElseThrow(() -> new SniffableNotFoundException("dog with id \"" + id + "\" + not exists"))
@@ -164,10 +171,15 @@ public class DogService extends BaseService<Dog, DogDto> {
 			timeline.addAll(
 					d.getPubdates().stream().map(p -> mapper.map(p, PubdateDto.class)).collect(Collectors.toSet()));
 			timeline.addAll(
-					d.getShares().stream().map(p -> mapper.map(p, PubdateDto.class)).collect(Collectors.toSet()));
+					d.getShared().stream().map(p -> mapper.map(p, PubdateDto.class)).collect(Collectors.toSet()));
 		}
 		return timeline;
 	}
+	
+	// TODO
+	/*
+	 * public DogDTO updateDog() { }
+	 */
 
 	/*
 	 * public DogDTO registerDog(String name, String password, Role role) throws
