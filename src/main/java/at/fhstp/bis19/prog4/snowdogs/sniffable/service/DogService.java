@@ -351,36 +351,10 @@ public class DogService {
 				timeline.addAll(d.getPubdates().stream().map(p -> new PubdateDTO(p)).collect(Collectors.toSet()));
 				timeline.addAll(d.getShares().stream().map(p -> new PubdateDTO(p)).collect(Collectors.toSet()));
 			}
-			for(Pubdate p::)
-			return timeline;
+		return timeline;
 		} else {
 			throw new SniffableNotFoundException("dog with id \"" + id + "\" + not exists");
 		}
 	}
 	
-	
-	/*
-	public DogDTO registerDog(String name, String password, Role role) throws SniffableException {
-		if (name == null || name.isEmpty()) {
-			log.warn("Unable to register new dog \"{}\": name null or empty", name);
-			throw new SniffableIllegalValueException("name null or empty");
-		}
-		if (dogRepo.findByNameIgnoreCase(name).isEmpty()) {
-			Dog d = Dog.builder().name(name).password(password).role(role).build();
-			d.setRole(role);
-			Dog newDog = dogRepo.save(d);
-			if (newDog != null) {
-				log.info("New dog \"{}\" registerd sucessfully!", name);
-				return new DogDTO(newDog);
-			} else {
-				log.error("Unable to register new dog \"{}\": unable to save dog", name);
-				throw new SniffableException("unable to save dog");
-			}
-		} else {
-			log.warn("Unable to register new dog \"{}\": already exists!", name);
-			throw new SniffableAlreadyExistsException("name alreday exists");
-		}
-	}*/
-	
->>>>>>> refs/remotes/origin/toesch_experimental_Dto
 }

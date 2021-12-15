@@ -45,14 +45,8 @@ public class DogController extends BaseController<Dog, DogDto> {
 	 * @return dog
 	 */
 	@PostMapping()
-<<<<<<< HEAD
-	public DogDto createDog(@RequestBody(required = true) NewDogDto dog,
-			@RequestHeader(value = masterkeyHeaderAttribute, required = false) 
-			String headerKey) {
-=======
 	public DogDto createDog(@RequestBody(required = true) @Valid final NewDogDto dog,
 			@RequestHeader(value = masterkeyHeaderAttribute, required = false) String headerKey) {
->>>>>>> refs/remotes/origin/berger
 		String mk = env.getProperty(masterkeyConfigProperty);
 		// Force Role User if masterkey is not present or invalid
 		if (mk != null && !(mk.equals(headerKey))) {
@@ -69,27 +63,6 @@ public class DogController extends BaseController<Dog, DogDto> {
 	 * @param action (like|follow|share)
 	 */
 	@PostMapping(value = "{id}/{action}/{pid}")
-<<<<<<< HEAD
-	public void createLikeShareFollow(@PathVariable(value = "id", required = true) int id, 
-								@PathVariable(value = "pid", required = true) int pid, 
-								@PathVariable(value = "action", required = true) String action) {
-		try {
-			switch (action) {
-			case "like":
-				cDogService.likePubdate(id, pid);
-				break;
-			case "share":
-				cDogService.sharePubdate(id, pid);
-				break;
-			case "follow":
-				cDogService.followDog(id, pid);
-				break;
-			default:
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-			}
-		} catch (SniffableException ex) {
-			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
-=======
 	public void createLikeShareFollow(@PathVariable(value = "id", required = true) int id,
 			@PathVariable(value = "pid", required = true) int pid,
 			@PathVariable(value = "action", required = true) String action) {
@@ -105,7 +78,6 @@ public class DogController extends BaseController<Dog, DogDto> {
 			break;
 		default:
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "action \"" + action + "\" not allowed");
->>>>>>> refs/remotes/origin/berger
 		}
 	}
 	
@@ -148,18 +120,8 @@ public class DogController extends BaseController<Dog, DogDto> {
 	 * @return timeline
 	 */
 	@GetMapping(value = "{id}/timeline")
-<<<<<<< HEAD
-	public Set<PubdateDto> getTimeline(
-			@PathVariable(value = "id", required = true) int id) {
-		try {
-			return cDogService.getTimeline(id);
-		} catch (SniffableException ex) {
-			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
-		}
-=======
 	public Set<PubdateDto> getTimeline(@PathVariable(value = "id", required = true) int id) {
 		return cDogService.getTimeline(id);
->>>>>>> refs/remotes/origin/berger
 	}
 
 	/**
@@ -169,18 +131,8 @@ public class DogController extends BaseController<Dog, DogDto> {
 	 * @return Pubdates
 	 */
 	@GetMapping(value = "{id}/pubdates")
-<<<<<<< HEAD
-	public Set<PubdateDto> getPubdates(
-			@PathVariable(value = "id", required = true) int id) {
-		try {
-			return cDogService.getPubdates(id);
-		} catch (SniffableException ex) {
-			throw new ResponseStatusException(ex.getHTTPStatus(), ex.getMessage());
-		}
-=======
 	public Set<PubdateDto> getPubdates(@PathVariable(value = "id", required = true) int id) {
 		return cDogService.getPubdates(id);
->>>>>>> refs/remotes/origin/berger
 	}
 
 	/*

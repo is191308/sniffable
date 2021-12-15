@@ -74,12 +74,8 @@ public class PubdateService extends BaseService<Pubdate, PubdateDto> {
 		}
 	}
 	
-<<<<<<< HEAD
-	public CommentDto addComment(int pubdateId, int dogID, NewCommentDto comment)
-			throws SniffableException {
-=======
+
 	public CommentDto addComment(int pubdateId, int dogID, NewCommentDto comment) {
->>>>>>> refs/remotes/origin/berger
 		Optional<Dog> dog = dogRepo.findById(dogID);
 		Optional<Pubdate> pub = pubdateRepo.findById(pubdateId);
 		if (pub.isPresent()) {
