@@ -1,90 +1,94 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable.entity;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Table(name = "user")
+@Table(name = "dog")
 @Entity
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Dog extends BaseEntity {
-
-	@Column(name = "name", nullable = false)
+	// Roles
+	public static enum Role {ADMIN, MODERATOR, USER}
+	
+	/**
+	 * name of the dog (must be set)
+	 */
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 	
-	@JsonIgnore
-	@OneToMany(targetEntity = Pubdate.class, mappedBy = "dog", cascade = CascadeType.ALL)
-	private List<Pubdate> pubdates;
+	/**
+	 * password of the dog (must be set)
+	 */
+	@Column(name = "password", nullable = false)
+	private String password;
 	
-	@JsonIgnore
-	@OneToMany(targetEntity = Dog.class, cascade = CascadeType.ALL)
-	private List<Dog> subcriptions;
+	/**
+	 * role of the dog (must be set)
+	 * default: USER
+	 */
+	@Column(name = "role", nullable = false)
+	@Builder.Default
+	private Dog.Role role = Role.USER;
+
+	@OneToMany(targetEntity = Pubdate.class, mappedBy = "dog", orphanRemoval = true, cascade = CascadeType.ALL)
+	private Set<Pubdate> pubdates;
 	
-	@JsonIgnore
-	@ManyToMany(targetEntity = Pubdate.class, cascade = CascadeType.ALL)
-	private List<Pubdate> likes;
+	@ManyToMany(targetEntity = Dog.class)
+	private Set<Dog> follow;
 	
-	@JsonIgnore
-	@ManyToMany(targetEntity = Pubdate.class, cascade = CascadeType.ALL)
-	private List<Pubdate> shares;
+	@ManyToMany(targetEntity = Dog.class, mappedBy = "follow")
+	private Set<Dog> followers;
 	
-	public Dog() {
-		this("anonymous dog");
-	}
+	@ManyToMany(targetEntity = Pubdate.class)
+	private Set<Pubdate> liked;
 	
-	public Dog(String name) {
-		this.name = name;
-	}
+	@ManyToMany(targetEntity = Pubdate.class)
+	private Set<Pubdate> shared;
 	
-	//TODO: removed unused setter
-		
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public List<Pubdate> getPubdates() {
-		return pubdates;
-	}
-
-	public void setPubdates(List<Pubdate> pubdates) {
-		this.pubdates = pubdates;
-	}
-
-	public List<Dog> getSubcriptions() {
-		return subcriptions;
-	}
-
-	public void setSubcriptions(List<Dog> subcriptions) {
-		this.subcriptions = subcriptions;
-	}
-
-	public List<Pubdate> getLikes() {
-		return likes;
-	}
-
-	public void setLikes(List<Pubdate> likes) {
-		this.likes = likes;
-	}
-
-	public List<Pubdate> getShares() {
-		return shares;
-	}
-
-	public void setShares(List<Pubdate> shares) {
-		this.shares = shares;
+	@OneToMany(targetEntity = Comment.class, mappedBy = "dog", orphanRemoval = true, cascade = CascadeType.ALL)
+	private Set<Comment> comments;
+	
+	@PreRemove
+	private void removeManyToManyRelations() {
+	   for (Dog d : this.followers) {
+		   d.getFollow().remove(this);
+	   }
 	}
 	
-	
-
-	@Override
-	public String toString() {
-		return "Dog [id=" + super.getId() + ", name=" + name + "]";
+	public void addFollow(Dog follow) {
+		this.follow.add(follow);
 	}
 	
+	public void removeFollow(Dog follow) {
+		this.follow.remove(follow);
+	}
+
+	public void addLike(Pubdate like) {
+		this.liked.add(like);
+	}
 	
+	public void removeLike(Pubdate like) {
+		this.liked.remove(like);
+	}
+	
+	public void addShare(Pubdate share) {
+		this.shared.add(share);
+	}
+	
+	public void removeShare(Pubdate share) {
+		this.shared.remove(share);
+	}	
 }
