@@ -1,7 +1,6 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -42,16 +41,22 @@ public class TestRegisterDog {
 	@Autowired
 	DogService dogService;
 
+//	@Test
+//	void ExistingNameShouldTriggerException() {
+//
+//		try {
+//			dogService.createDog(nd1);
+//			dogService.createDog(nd2);
+//			fail("Method didn't throw Exception when I expected it to");
+//		} catch (SniffableAlreadyExistsException e) {
+//			System.out.println("TEST PASSED: Successfully thrown Exception due to existing Name");
+//		}
+//	}
+	
 	@Test
-	void ExistingNameShouldTriggerException() {
-
-		try {
-			dogService.createDog(nd1);
-			dogService.createDog(nd2);
-			fail("Method didn't throw Exception when I expected it to");
-		} catch (SniffableAlreadyExistsException e) {
-			System.out.println("TEST PASSED: Successfully thrown Exception due to existing Name");
-		}
+	void ExistingNameShouldTriggerExceptiona() {
+		dogService.createDog(nd1);
+		assertThrows(SniffableAlreadyExistsException.class, () -> dogService.createDog(nd2));
 	}
 
 	@Test
