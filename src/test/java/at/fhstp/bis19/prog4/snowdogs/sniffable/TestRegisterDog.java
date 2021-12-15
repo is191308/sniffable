@@ -1,5 +1,6 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -37,14 +38,14 @@ public class TestRegisterDog {
 	private static void createMapper() {
 		mapper = new ModelMapper();
 	}
-
+	
 	@Autowired
 	DogService dogService;
 
 	
 	@Test
 	void ExistingNameShouldTriggerException() {
-		dogService.createDog(nd1);
+		assertDoesNotThrow( () -> dogService.createDog(nd1));
 		assertThrows(SniffableAlreadyExistsException.class, () -> dogService.createDog(nd2));
 	}
 
