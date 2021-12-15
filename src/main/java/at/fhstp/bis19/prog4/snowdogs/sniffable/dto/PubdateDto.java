@@ -15,7 +15,9 @@ public class PubdateDto implements Comparable<PubdateDto>, BaseDto {
 	private ImageDto picture;
 	private DogDto dog;
 	private Set<CommentDto> comments;
+	private Set<DogDto> likes;
 
+	
 	// sort by timestamp desc
 	@Override
 	public int compareTo(PubdateDto o) {
