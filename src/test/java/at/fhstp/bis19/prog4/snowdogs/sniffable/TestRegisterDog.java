@@ -1,5 +1,6 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -18,66 +19,49 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.service.DogService;
 
 @SpringBootTest
 public class TestRegisterDog {
-	
+
 	private static ModelMapper mapper;
-	
-	
+
 	Dog d1 = Dog.builder().name("TestDog").password("testpw").role(Role.USER).build();
 	NewDogDto nd1 = mapper.map(d1, NewDogDto.class);
-	
+
 	Dog d2 = Dog.builder().name("TestDog").password("testpw").role(Role.USER).build();
 	NewDogDto nd2 = mapper.map(d2, NewDogDto.class);
-	
-	
+
 	Dog d3 = Dog.builder().name("BlankPassDog").role(Role.USER).build();
 	NewDogDto nd3 = mapper.map(d3, NewDogDto.class);
-	
+
 	Dog d4 = Dog.builder().password("hasPassButNoName").role(Role.USER).build();
 	NewDogDto nd4 = mapper.map(d4, NewDogDto.class);
-	
-	
+
 	@BeforeAll
 	private static void createMapper() {
 		mapper = new ModelMapper();
 	}
-	
-	@Autowired DogService dogService;
 
-	  
+	@Autowired
+	DogService dogService;
+
 	@Test
-	void ExistingNameShouldTriggerException() {		
-		
+	void ExistingNameShouldTriggerException() {
+
 		try {
 			dogService.createDog(nd1);
 			dogService.createDog(nd2);
-			fail( "Method didn't throw Exception when I expected it to" );
+			fail("Method didn't throw Exception when I expected it to");
 		} catch (SniffableAlreadyExistsException e) {
 			System.out.println("TEST PASSED: Successfully thrown Exception due to existing Name");
-		}	
-	  }
-	  
-	 
+		}
+	}
+
 	@Test
 	void blankPasswordShouldFail() {
-		try {
-			dogService.createDog(nd3);
-			fail( "Method didn't throw Exception when I expected it to" );
-		} catch (DataIntegrityViolationException e) {
-			System.out.println("TEST PASSED: Successfully thrown Exception due to blank Password");
-		}	
-
+		assertThrows(DataIntegrityViolationException.class, () -> dogService.createDog(nd3));
 	}
-	  
+
 	@Test
 	void blankNameShouldFail() {
-		try {
-			dogService.createDog(nd4);
-			fail( "Method didn't throw Exception when I expected it to" );
-		} catch (SniffableIllegalValueException e) {
-			System.out.println("TEST PASSED: Successfully thrown Exception due to blank Name");
-		}	
-
-	}
-	
+		assertThrows(DataIntegrityViolationException.class, () -> dogService.createDog(nd4));
 	}
 
+}
