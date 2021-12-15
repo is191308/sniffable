@@ -61,7 +61,7 @@ public class TestRegisterDog {
 
 	@Test
 	void blankNameShouldFail() {
-		assertThrows(DataIntegrityViolationException.class, () -> dogService.createDog(nd4));
+		assertThrows(SniffableIllegalValueException.class, () -> dogService.createDog(nd4));
 	}
 
 }
