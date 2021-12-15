@@ -21,7 +21,7 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.entity.Pubdate;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.service.PubdateService;
 
 @SpringBootTest
-public class Mockblabla {
+public class TestPubdateTransition {
 
 	@MockBean
 	private PubdateService pubdateServiceMock;
@@ -40,13 +40,9 @@ public class Mockblabla {
 	private static void createMapper() {
 		mapper = new ModelMapper();
 	}
-	
-	
-
-	
 	  
 	  @Test
-	  void testSomething() {
+	  void testDtoTransition() {
 		  //prepare	-> return PubdateDto
 		  Mockito.when(pubdateServiceMock.createPubdate(np1)).thenReturn(mapper.map(np1, PubdateDto.class));  
 		  
@@ -54,10 +50,6 @@ public class Mockblabla {
 		  assertFalse(pubdateServiceMock.createPubdate(np1).getClass().equals(np1.getClass()));
 
 		  //verify method only called once
-		  verify(pubdateServiceMock, times(1)).createPubdate(np1);
-		  
-		  //somehow... timestamp is null?!   -> wollte eigentlich checken ob er gesetzt wurde
-		  System.out.println(pubdateServiceMock.createPubdate(np1).getTimestamp());
-		  
+		  verify(pubdateServiceMock, times(1)).createPubdate(np1);  
 	  }
 }
