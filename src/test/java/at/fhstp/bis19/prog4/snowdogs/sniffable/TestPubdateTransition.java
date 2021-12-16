@@ -1,7 +1,11 @@
 package at.fhstp.bis19.prog4.snowdogs.sniffable;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.ArgumentMatchers.contains;
+
+import static org.mockito.ArgumentMatchers.anyInt;
+//import static org.mockito.ArgumentMatchers.argThat;
+//import static org.mockito.ArgumentMatchers.contains;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -51,5 +55,7 @@ public class TestPubdateTransition {
 
 		  //verify method only called once
 		  verify(pubdateServiceMock, times(1)).createPubdate(np1);  
+
 	  }
+
 }
