@@ -31,4 +31,15 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
 /bin/
+=======
+/.gitignore
+/.mvn/
+/LICENSE
+/README.md
+/mvnw
+/mvnw.cmd
+/pom.xml
+/src/
+>>>>>>> refs/remotes/origin/feature-testCases
