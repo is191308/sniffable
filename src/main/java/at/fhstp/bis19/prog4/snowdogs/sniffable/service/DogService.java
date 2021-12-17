@@ -19,6 +19,7 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableAlreadyExistsE
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableIllegalValueException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;
+import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.CommentRepo;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.DogRepo;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.PubdateRepo;
 
@@ -63,6 +64,7 @@ public class DogService extends BaseService<Dog, DogDto> {
 			throw new SniffableAlreadyExistsException("name alreday exists");
 		}
 	}
+
 
 	public void likePubdate(int id, int pid) {
 		if (dogRepo.existsById(id) && pubdateRepo.existsById(pid)) {
@@ -164,5 +166,6 @@ public class DogService extends BaseService<Dog, DogDto> {
 	 * log.warn("Unable to register new dog \"{}\": already exists!", name); throw
 	 * new SniffableAlreadyExistsException("name alreday exists"); } }
 	 */
+
 
 }
