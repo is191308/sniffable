@@ -19,7 +19,6 @@ import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableAlreadyExistsE
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableIllegalValueException;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.exception.SniffableNotFoundException;
-import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.CommentRepo;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.DogRepo;
 import at.fhstp.bis19.prog4.snowdogs.sniffable.repo.PubdateRepo;
 
@@ -146,7 +145,9 @@ public class DogService extends BaseService<Dog, DogDto> {
 		return timeline;
 	}
 	
-	// TODO
+	
+	
+	
 	/*
 	 * public DogDTO updateDog() { }
 	 */
