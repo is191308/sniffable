@@ -144,29 +144,4 @@ public class DogService extends BaseService<Dog, DogDto> {
 		}
 		return timeline;
 	}
-	
-	
-	
-	
-	/*
-	 * public DogDTO updateDog() { }
-	 */
-
-	/*
-	 * public DogDTO registerDog(String name, String password, Role role) throws
-	 * SniffableException { if (name == null || name.isEmpty()) {
-	 * log.warn("Unable to register new dog \"{}\": name null or empty", name);
-	 * throw new SniffableIllegalValueException("name null or empty"); } if
-	 * (dogRepo.findByNameIgnoreCase(name).isEmpty()) { Dog d =
-	 * Dog.builder().name(name).password(password).role(role).build();
-	 * d.setRole(role); Dog newDog = dogRepo.save(d); if (newDog != null) {
-	 * log.info("New dog \"{}\" registerd sucessfully!", name); return new
-	 * DogDTO(newDog); } else {
-	 * log.error("Unable to register new dog \"{}\": unable to save dog", name);
-	 * throw new SniffableException("unable to save dog"); } } else {
-	 * log.warn("Unable to register new dog \"{}\": already exists!", name); throw
-	 * new SniffableAlreadyExistsException("name alreday exists"); } }
-	 */
-
-
 }
